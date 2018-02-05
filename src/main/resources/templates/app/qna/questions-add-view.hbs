@@ -1,0 +1,47 @@
+{{#partial "headcode" }} {{/partial}} {{#partial "footercode" }} {{/partial}} {{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if questionError}}has-error{{/if}}">
+        {{#if questionError}}<span class="help-block dlxs-validation-error">({{questionError}})</span>{{/if}}
+    </div>
+    <div class="row">
+        <!-- Content Section -->
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/app/qna/questions">Questions and Answers</a></li>
+                    <li class="active">Ask Question</li>
+                </ol>
+                <form action="{{formPostUrl}}" method="post">
+                    <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Ask Question</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <textarea class="form-control" autofocus id="question" name="question" placeholder="Ask a question" rows="3"></textarea>
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <h5><strong>Questions and Answers best practices</strong></h5>
+                                <ul>
+                                    <li>Ask questions that are related to the subject you are studying.</li>
+                                    <li>Do not ask silly questions such as "What is math?".</li>
+                                    <li><strong>Remember</strong>: Each question you ask is linked to your account. Your teacher(s)
+                                        will see the questions that you ask.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" class="btn btn-success" name="action" value="Save">Ask Question</button>
+                            <button type="submit" class="btn btn-default" name="action" value="Cancel">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- col-lg-8 / Content Section -->
+    </div>
+    <!-- /row -->
+</div>
+<!-- /container -->
+{{/partial}} {{> app/common/master }}

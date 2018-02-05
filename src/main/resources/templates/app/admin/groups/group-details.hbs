@@ -1,0 +1,57 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if successMsg}}has-error{{/if}}">
+        {{#if successMsg}}<span class="help-block dlxs-validation-error">{{successMsg}}</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>Admin</li>
+                <li><a href="{{groupsUrl}}">Groups</a></li>
+                <li class="active">Group Details</li>
+            </ol>
+            <form action="{{formPostUrl}}" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Group Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        <input type="hidden" name="id" value="{{group.id}}" />
+
+                        <div class="form-group">
+                            <label>{{#ifeqStr domain "MiniSevaIndia.com"}}Batch (Academic Year){{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Academic Year{{/ifeqStr}}</label>
+                            <p>{{group.startYear}}-{{group.endYear}} academic year</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{#ifeqStr domain "MiniSevaIndia.com"}}Standard{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Grade{{/ifeqStr}}</label>
+                            <p>{{group.standard}}{{#ifeqStr domain "MiniSevaIndia.com"}}<sup>th</sup>{{/ifeqStr}}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="section">Section</label>
+                            <input name="section" value="{{group.section}}" type="text" class="form-control" placeholder="Enter section">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" 
+                                name="action" 
+                                value="save" 
+                                class="btn btn-success">Save changes</button>
+                        <a href="{{groupsUrl}}"
+                                class="btn btn-default">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

@@ -1,0 +1,186 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.3.RELEASE'
+    }
+    repositories {
+        maven { url "http://repo.spring.io/libs-milestone" }
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+// Embed an init.d script in the fat JAR
+springBoot {
+    executable = true
+}
+
+// Use the application-development.properties unless the SPRING_PROFILES_ACTIVE env var is set.
+// Alternative way to run bootRun for development:
+// SPRING_PROFILES_ACTIVE=development ./gradlew bootRun
+bootRun {
+    //addResources = true
+    environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: "development"
+    //systemProperty "spring.profiles.active", "development"
+}
+
+test {
+    environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: "test"
+}
+
+jar {
+    baseName = 'www.miniseva.com'
+    version = '1.0.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://repo.spring.io/milestone" }
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    // Spring core
+    // ===========
+
+    compile('org.springframework.boot:spring-boot-starter-web') // Web pages, REST APIs, Spring MVC (default: Tomcat)
+
+    // Telemetry: audit, health, metrics, livereload
+    // =========
+
+    // devtools causes the following JDBC exception when accessing Twitter data
+    // java.lang.IllegalAccessError: class org.springframework.social.connect.jdbc.JdbcConnectionRepository
+    // cannot access its superclass org.springframework.social.connect.jdbc.JdbcConnectionRepository
+    compile("org.springframework.boot:spring-boot-devtools")
+
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Databases and Data
+    // ==================
+
+//	compile('org.springframework.boot:spring-boot-starter-cache')
+//	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+//	compile('org.springframework.boot:spring-boot-starter-data-redis')
+	compile('org.springframework.boot:spring-boot-starter-jdbc') // Used by social auth
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+//    compile('org.postgresql:postgresql')
+    compile('org.postgresql:postgresql:9.4.1212')
+    compile('org.hibernate:hibernate-validator:4.2.0.Final')
+
+    // Authentication and Authorization
+    // ================================
+
+    compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.session:spring-session')
+
+    // Facebook
+    compile("org.springframework.social:spring-social-facebook")
+    compile('org.springframework.boot:spring-boot-starter-social-facebook')
+    compile('org.springframework.social:spring-social-facebook:3.0.0.M1')
+    compile('org.springframework.social:spring-social-facebook-web:3.0.0.M1')
+
+    compile('org.springframework.social:spring-social-config:2.0.0.M1')
+    compile group: 'org.springframework.social', name: 'spring-social-core', version: '2.0.0.M1'
+
+    compile group: 'org.springframework.social', name: 'spring-social-web', version: '2.0.0.M1'
+    //compile group: 'org.springframework.social', name: 'spring-social-security', version: '2.0.0.M1'
+
+    // LinkedIn
+    compile('org.springframework.boot:spring-boot-starter-social-linkedin')
+    compile group: 'org.springframework.social', name: 'spring-social-linkedin', version: '2.0.0.M1'
+
+    // Twitter
+    compile('org.springframework.boot:spring-boot-starter-social-twitter')
+    compile group: 'org.springframework.social', name: 'spring-social-twitter', version: '2.0.0.M1'
+
+    compile('org.springframework.boot:spring-boot-starter-validation')
+
+    // Handlebars
+    // ==========
+
+    compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.2.12'
+    compile 'com.github.jknack:handlebars-helpers:4.0.6',
+            'com.github.jknack:handlebars-jackson2:4.0.6',
+            'com.github.jknack:handlebars-humanize:4.0.6',
+            'com.github.jknack:handlebars-markdown:4.0.6'
+
+    // Misc
+    // ====
+
+    compile('com.github.slugify:slugify:2.1.7')
+
+    // Used by social auth as http client and by RestTemplate
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+
+    // Used to create random coupon code
+    compile('org.apache.commons:commons-lang3:3.6')
+
+    // JSON parser/serializer
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.6'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.6'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.6'
+
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5' // Apache Commons FileUtils
+
+    // Date/Time
+    compile('joda-time:joda-time:2.9.6')
+    compile('org.jadira.usertype:usertype.core:5.0.0.GA')
+
+    // Payment Gateway (Razor Pay)
+    compile "com.razorpay:razorpay-java:1.2.4"
+
+    // Test
+    // ====
+
+    testCompile("junit:junit")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.springframework.security:spring-security-test")
+}
+
+// Build a deployment package
+// ==========================
+
+task pack(type: Zip, dependsOn: 'build') {
+    from('build/libs') {
+        include "*.jar"
+        include "*.conf"
+        include "*.sh"
+    }
+    //from('./bin') {
+    //    include "update-deploy.sh"
+    //}
+}
+
+pack.doFirst {
+//    def confFile = new File("build/libs/${project.name}-${version}.conf")
+    def confFile = new File("build/libs/${jar.baseName}-${jar.version}.conf")
+    confFile << 'JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true  -Xmx512m -XX:MaxPermSize=256m -XX:+UseConcMarkSweepGC -Dspring.profiles.active=production"'
+
+    def deployFile = new File("build/libs/update-deploy.sh")
+    deployFile << '#!/bin/bash\n\n'
+    deployFile << 'service miniseva stop\n'
+    deployFile << 'rm /etc/init.d/miniseva\n'
+    deployFile << "chown miniseva:miniseva /apps/${jar.baseName}-${jar.version}.jar\n"
+    deployFile << "chmod 500 /apps/${jar.baseName}-${jar.version}.jar\n"
+    deployFile << "chattr +i /apps/${jar.baseName}-${jar.version}.jar\n"
+    deployFile << "ln -s /apps/${jar.baseName}-${jar.version}.jar /etc/init.d/miniseva\n"
+    deployFile << 'service miniseva start\n'
+    deployFile << 'rm www.miniseva.com.zip\n'
+}
+
+pack.doLast {
+    println "Build and packaging successful."
+}

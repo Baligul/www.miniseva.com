@@ -1,0 +1,67 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                {{> app/components/page_search }}
+            </div>
+            <div class="page-header" name="top">
+                <h1>Students</h1>
+            </div>
+            {{#if students}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+            <div>
+                {{#unless students}}
+                    <div class="alert alert-info">
+                        No students were found in your batch. Please contact the administrator.
+                    </div>
+                {{/unless}}
+                
+                {{#if students}}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>Name</div>
+                                </th>
+                                <th class="header">
+                                    <div>Email</div>
+                                </th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each students}}
+                                <tr class="rs-clickable">
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}/details">
+                                            {{this.firstName}} {{this.lastName}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}/details">
+                                            {{this.email}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{/if}}
+            </div>
+            {{#if students}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

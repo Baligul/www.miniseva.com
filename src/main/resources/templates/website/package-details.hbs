@@ -1,0 +1,104 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<!-- courses -->
+<div class="courses_box1">
+   <div class="container">
+      <h3 class="tittle">{{subcategory.name}} Details</h3>
+      <div class="wow fadeInUp animated" data-wow-delay=".5s">
+         <div class="course_list">
+            <div class="table-header clearfix">
+               <div class="name_col">Course</div>
+               <div class="duration_col"># of Documents</div>
+               <div class="duration_col"># of Exams</div>
+               <div class="duration_col">Language</div>
+            </div>
+            <ul class="table-list">
+               {{#each courses}}
+               <li class="clearfix">
+                  <div class="name_col">
+                     <a href="javascript:void(0)">
+                        {{this.name}}
+                        <p>
+                           {{this.description}}
+                        </p>
+                     </a>
+                  </div>
+                  <div class="duration_col"><i class="fa fa-file-text-o" aria-hidden="true"></i> {{this.documentsCount}}</div>
+                  <div class="duration_col"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{this.examCount}}</div>
+                  <div class="duration_col"><i class="fa fa-language" aria-hidden="true"></i> {{#capitalize this.language}} {{/capitalize}}</div>
+               </li>
+               {{/each}}
+            </ul>
+			<br/>
+            <div class="container">
+				<div class="col-md-8"><a href="/packages" class="btn btn-primary"><i class="fa fa-angle-left"></i> Back</a></div>
+			</div>
+         </div>
+      </div>
+      {{!--<div class="col-md-3">
+         <div class="personBox wow fadeInLeft animated" data-wow-delay=".5s">
+            <div class="personBox_1">
+               <div class="person_image">
+                  <img src="/website/images/courses/team1.jpg" class="img-responsive" alt=""/>
+               </div>
+               <div class="person_image_desc">
+                  <h6 style="color:goldenrod;">Raghunath Rao</h6>
+                  <p>Scientific Basis of MiniSeva Digital Learning System</p>
+               </div>
+               <div class="clearfix"> </div>
+            </div>
+            <div class="person_description">
+               <p>
+                  MiniSeva uses insights gained from testing to reinforce learning. Experiments have shown that children learn from experience. When a test is repeated often, the lessons learned become second nature and are absorbed into the subconscious. This is of great benefit in the exam hall when students are under pressure to answer a large number of questions in a short time. <a href="#">More..</a>
+               </p>
+            </div>
+         </div>
+         <ul class="posts wow fadeInLeft animated" data-wow-delay=".5s">
+            <h3 style="color:goldenrod;">Success stories</h3>
+            <li>
+               <article class="entry-item">
+                  <div class="entry-thumb pull-left">
+                     <img src="/website/images/courses/team2.jpg" class="img-responsive" alt=""/>
+                  </div>
+                  <div class="entry-content">
+                     <h6><a href="#">Nikhil Kumar</a></h6>
+                     <p>Nikhil used RankstudentIndia.com to achieve distinction with a score of 89.5%.</p>
+                  </div>
+                  <div class="clearfix"> </div>
+               </article>
+            </li>
+            <li>
+               <article class="entry-item">
+                  <div class="entry-thumb pull-left">
+                     <img src="/website/images/courses/team3.jpg" class="img-responsive" alt=""/>
+                  </div>
+                  <div class="entry-content">
+                     <h6><a href="#">M. Junaid</a></h6>
+                     <p>Junaid used RankstudentIndia.com to achieve high distinction with a score of  94.5%</p>
+                  </div>
+                  <div class="clearfix"> </div>
+               </article>
+            </li>
+            <li>
+               <article class="entry-item">
+                  <div class="entry-thumb pull-left">
+                     <img src="/website/images/courses/team4.jpg" class="img-responsive" alt=""/>
+                  </div>
+                  <div class="entry-content">
+                     <h6><a href="#">M. Nawaz</a></h6>
+                     <p>Nawaz used RankstudentIndia.com to improve his performance by 54% and score 90.5%</p>
+                  </div>
+                  <div class="clearfix"> </div>
+               </article>
+            </li>
+         </ul>
+      </div>--}}
+      <div class="clearfix"> </div>
+   </div>
+</div>
+<!-- courses -->
+{{/partial}}
+{{> common/master }}

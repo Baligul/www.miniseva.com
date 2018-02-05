@@ -1,0 +1,72 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                {{> app/components/page_search }}
+            </div>
+            <div class="page-header" name="top">
+                <h1>Contacts</h1>
+            </div>
+            {{#if isRootRole }}
+                {{#if contacts}}
+                    {{> app/components/previous-next-links }}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>Name</div>
+                                </th>
+                                <th class="header">
+                                    <div>Email</div>
+                                </th>
+                                <th class="header">
+                                    <div>Note</div>
+                                </th>
+                                <th class="header">
+                                    <div>Contacted On</div>
+                                </th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each contacts}}
+                                <tr>
+                                    <td>
+                                        {{this.fullname}}
+                                    </td>
+                                    <td>
+                                        {{this.email}}
+                                    </td>
+                                    <td>
+                                        {{this.note}}
+                                    </td>
+                                    <td>
+                                        {{this.createdOnFormatted}}
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="alert alert-info">
+                        No contacts were found.
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if contacts}}
+            {{> app/components/previous-next-links }}
+        {{/if}}
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

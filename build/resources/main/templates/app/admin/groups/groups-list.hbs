@@ -1,0 +1,87 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Groups</h1>
+            </div>
+            {{#if isRootRole }}
+                <form action="{{formPostUrl}}" method="post">
+                    <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                    <button type="submit" 
+                        name="action" 
+                        value="addGroup" 
+                        class="btn btn-primary rs-add-button">
+                    <i class="fa fa-plus"></i> Add Group</button>
+                    
+                    <div class="form-group">
+                        <label for="college">College</label>
+                        <select name="college" onchange="this.form.submit()" class="form-control">
+                            <option value="0">-- Select College --</option>
+                            {{#each colleges}}
+                                <option {{#ifeq this.id collegeId}}selected="selected"{{/ifeq}} value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </form>
+                {{#if groups}}
+                    {{> app/components/previous-next-links }}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>{{#ifeqStr domain "MiniSevaIndia.com"}}Batch (Academic Year){{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Academic Year{{/ifeqStr}}</div>
+                                </th>
+                                <th class="header">
+                                    <div>{{#ifeqStr domain "MiniSevaIndia.com"}}Standard{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Grade{{/ifeqStr}}</div>
+                                </th>
+                                <th class="header">
+                                    <div>Section</div>
+                                </th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each groups}}
+                                <tr class="rs-clickable">
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.title}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.standard}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.section}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="alert alert-info">
+                        No groups were found. Click <strong>Add Group</strong> to add a group.
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if groups}}
+            {{> app/components/previous-next-links }}
+        {{/if}}
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

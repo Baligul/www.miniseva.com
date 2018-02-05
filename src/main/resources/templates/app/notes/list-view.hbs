@@ -1,0 +1,51 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<div class="container min-height-container">
+   <div class="row">
+      <!-- Content Section -->
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Notes</h1>
+            </div>
+
+            <a href="{{notesAuthorUrl}}" class="btn btn-primary rs-add-button">
+                <i class="fa fa-plus"></i> Add Note
+            </a>
+
+            <div>
+                {{#unless notes}}
+                    <div class="alert alert-info">
+                        No notes were found. Click <strong>Add Note</strong> to create a new note.
+                    </div>
+                {{/unless}}
+                {{#if notes}}
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                        <th>Note</th>
+                        <th>Associated with</th>
+                        {{#each notes}}
+                            <tr class="rs-clickable">                                
+                                <td><a href="{{notesAuthorUrl}}/{{this.id}}">{{this.note}}</a></td>
+                                <td><a href="{{notesAuthorUrl}}/{{this.id}}">{{this.associateWith}}</a></td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                {{/if}}
+            </div>
+            {{#if notes}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+        </div>
+    </div>
+      <!-- col-lg-8 / Content Section -->
+   </div>
+   <!-- /row -->
+</div>
+<!-- /container -->
+{{/partial}}
+{{> app/common/master }}

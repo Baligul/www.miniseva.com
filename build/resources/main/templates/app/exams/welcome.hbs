@@ -1,0 +1,39 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <!-- Content Section -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{exam.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <p class="lead">{{exam.description}}</p>
+                    <p>Total number of questions:
+                        <span class="badge">{{exam.questionsCount}}</span>
+                    </p>
+                    <p><strong>Instructions</strong></p>
+                    <ul>
+                        <li>Keep a pen and paper ready for rough work</li>
+                        <li>Each question carries 1 mark</li>
+                    </ul>
+                    <div>
+                        <a href="/app/exams/{{exam.examType}}/{{courseSlug}}/{{courseId}}/{{exam.id}}/question"
+                        class="btn btn-success">
+                            Start Exam
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+
+{{> app/common/master }}

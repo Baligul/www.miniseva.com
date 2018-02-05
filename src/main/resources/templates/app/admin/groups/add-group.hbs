@@ -1,0 +1,88 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if successMsg}}has-error{{/if}}">
+        {{#if successMsg}}<span class="help-block dlxs-validation-error">{{successMsg}}</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>Admin</li>
+                <li><a href="/app/admin/college/1/groups">Groups</a></li>
+                <li class="active">Add Group</li>
+            </ol>
+            <form action="{{formPostUrl}}" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />                        
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add Group</h3>
+                    </div>
+                    <div class="panel-body">                    
+                        <div class="form-group">
+                            <label for="collegeId">College</label>
+                            {{#if collegeError}}<span class="help-block dlxs-validation-error">({{collegeError}})</span>{{/if}}
+                            <select name="collegeId" onchange="this.form.submit()" class="form-control">
+                                <option value="0">-- Select College --</option>
+                                {{#each colleges}}
+                                    <option {{#ifeq this.id collegeId}}selected="selected"{{/ifeq}} value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            {{#if groupError}}<span class="help-block dlxs-validation-error">({{groupError}})</span>{{/if}}
+                            <label for="batch">{{#ifeqStr domain "MiniSevaIndia.com"}}Batch (Academic Year){{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Academic Year{{/ifeqStr}}</label>
+                            <select name="batch" class="form-control">
+                                <option value="0">-- Select Group --</option>
+                                {{#each batches}}
+                                    <option {{#ifeqStr this batch}}selected="selected"{{/ifeqStr}} value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            {{#if standardError}}<span class="help-block dlxs-validation-error">({{standardError}})</span>{{/if}}
+                            <label>{{#ifeqStr domain "MiniSevaIndia.com"}}Standard{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Grade{{/ifeqStr}}</label>
+                            <div>
+                                <label>
+                                    <input type="radio"
+                                        name="standard"
+                                        value="11"
+                                        {{#ifeqInt standard 11}}checked{{/ifeqInt}}>{{#ifeqStr domain "MiniSevaIndia.com"}}11<sup>th</sup> standard{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Grade 11{{/ifeqStr}}
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="radio"
+                                        name="standard"
+                                        value="12"
+                                        {{#ifeqInt standard 12}}checked{{/ifeqInt}}>{{#ifeqStr domain "MiniSevaIndia.com"}}12<sup>th</sup> standard{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}Grade 12{{/ifeqStr}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group {{#if sectionError}}has-error{{/if}}">
+                            <label for="section">{{#if sectionError}}<i class="fa fa-times-circle-o"></i>{{/if}} Section </label>
+                            {{#if sectionError}}<span class="help-block dlxs-validation-error">({{sectionError}})</span>{{/if}}
+                            <input name="section" value="{{section}}" type="text" class="form-control" placeholder="Enter section">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" 
+                                name="action" 
+                                value="save" 
+                                class="btn btn-success">Save</button>
+                        <a href="/app/admin/college/1/groups"
+                        class="btn btn-default">Cancel</a>
+                    </div>
+                </div>   
+            </form>
+        </div>
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

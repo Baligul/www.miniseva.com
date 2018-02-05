@@ -1,0 +1,118 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<div class="container min-height-container">
+   <div class="row">
+      <!-- Content Section -->
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+            <h1>{{exam.name}} Results Reports</h1>
+        </div>
+        <div class="col-xs-12">
+        <form method="post">
+            <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+            <div class="form-group">
+                <select name="student" onchange="this.form.submit()" class="form-control">
+                    <option value="0">-- Choose student --</option>
+                        {{#each students}}
+                            <option {{#ifeq studentId this.id}}selected="selected"{{/ifeq}} value="{{this.id}}">{{this.firstName}} {{this.lastName}}</option>
+                        {{/each}}
+                </select>
+            </div>
+        </form>
+    </div>
+    </div>
+    {{#if studentNotSelected}}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-info">Please select a student to see <strong>Result Reports</strong> for this exam.
+                </div>
+            </div>
+        </div>
+    {{else}}
+        {{#unless reports}}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-info">No <strong>Result Reports</strong> were found
+                    for this exam.
+                    </div>
+                </div>
+            </div>
+        {{/unless}}
+    {{/if}}
+    {{#if reports}}
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Trend</h2>
+                <input type="hidden" id="reports" value="{{reports}}" />
+                <div id="examsResultsTrend"></div>
+            </div>
+        </div>
+    {{/if}}
+    {{#if reports}}
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Result Reports</h2>
+
+                <dl class="dl-horizontal">
+                    <dt>Total Questions</dt>
+                    <dd>{{totalQuestions}}</dd>
+                    <dt>Time Allocated</dt>
+                    <dd>{{timeAllocated}}</dd>
+                    <dt>Total Marks Allocated</dt>
+                    <dd>{{totalMarksAllocated}}</dd>
+                </dl>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="rs-center">Attempt</th>
+                            <th class="rs-center">Questions Answered</th>
+                            <th class="rs-center">Score</th>
+                            <th class="rs-center">Score (percent)</th>
+                            <th class="rs-center">Time Taken</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#each reports}}
+                        <tr>
+                            <td class="rs-center">
+                                <a href="{{baseResultsUrl}}/{{this.statusId}}">
+                                    {{this.attempt}}
+                                </a>
+                            </td>
+                            <td class="rs-center">
+                                <a href="{{baseResultsUrl}}/{{this.statusId}}">
+                                    {{this.questionsAnswered}}
+                                </a>
+                            </td>
+                            <td class="rs-center">
+                                <a href="{{baseResultsUrl}}/{{this.statusId}}">
+                                    {{this.correctAnswers}}
+                                </a>
+                            </td>
+                            <td class="rs-center">
+                                <a href="{{baseResultsUrl}}/{{this.statusId}}">
+                                    {{this.scorePercentage}}%
+                                </a>
+                            </td>
+                            <td class="rs-center">
+                                <a href="{{baseResultsUrl}}/{{this.statusId}}">
+                                    {{this.timeTaken}}
+                                </a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {{/if}}
+   </div>
+<!-- /row -->
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

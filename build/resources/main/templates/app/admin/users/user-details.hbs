@@ -1,0 +1,120 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if successMsg}}has-error{{/if}}">
+        {{#if successMsg}}<span class="help-block dlxs-validation-error">{{successMsg}}</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>Admin</li>
+                <li><a href="{{baseUserUrl}}">Users</a></li>
+                <li class="active">User Details</li>
+            </ol>
+            
+            <form action="{{formPostUrl}}" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">User Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{#unless user.enabled}}
+                            <div class="alert alert-danger">
+                                <i class="fa fa-lock fa-2x"></i>&nbsp; Account is disabled.
+                                Click <strong>Enable account</strong> below to activate user
+                                account.
+                            </div>
+                        {{/unless}}
+
+                        <div class="form-group {{#if nameError}}has-error{{/if}}">
+                            <label for="name">{{#if nameError}}<i class="fa fa-times-circle-o"></i>{{/if}} Name </label>
+                            {{#if nameError}}<span class="help-block dlxs-validation-error">({{nameError}})</span>{{/if}}
+                            <input name="name" value="{{user.name}}" type="text" class="form-control" placeholder="Name">
+                        </div>
+                        
+                        <div class="form-group {{#if emailError}}has-error{{/if}}">
+                            <label for="email">{{#if emailError}}<i class="fa fa-times-circle-o"></i>{{/if}} Email customer</label>
+                            {{#if emailError}}<span class="help-block dlxs-validation-error">({{emailError}})</span>{{/if}}
+                            <input name="email" value="{{user.email}}" type="text" class="form-control" placeholder="Enter email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Approval</label>
+                            <div>
+                                <label>
+                                    <input type="checkbox"
+                                        name="approved"
+                                        {{#if user.approved}}checked{{/if}}>Approve account (give access to purchase milk and water)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Roles</label>
+                            <div>
+                                <label>
+                                    <input type="checkbox"
+                                        name="isCustomer"
+                                        {{#if isCustomer}}checked{{/if}}>Customer
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group {{#if customerError}}has-error{{/if}}">
+                             <label for="customerId">{{#if customerError}}<i class="fa fa-times-circle-o"></i>{{/if}} Customer</label>
+                            {{#if customerError}}<span class="help-block dlxs-validation-error">({{customerError}})</span>{{/if}}
+                            <select name="customerId" class="form-control">
+                                <option value="">-- Select Customer --</option>
+                                {{#each customer}}
+                                    <option {{#ifeq this.id user.customerId}}selected="selected"{{/ifeq}} value="{{this.id}}">{{this.no}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group {{#if mobilePhoneError}}has-error{{/if}}">
+                            <label for="mobilePhone">{{#if mobilePhoneError}}<i class="fa fa-times-circle-o"></i>{{/if}} Mobile phone number </label>
+                            {{#if mobilePhoneError}}<span class="help-block dlxs-validation-error">({{mobilePhoneError}})</span>{{/if}}
+                            <input name="mobilePhone" value="{{user.mobilePhone}}" type="text" class="form-control" placeholder="Mobile phone number">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" 
+                                name="action" 
+                                value="save" 
+                                class="btn btn-primary">
+                            <i class="fa fa-envelope-o"></i> Save changes</button>
+                        <button type="submit" 
+                                name="action" 
+                                value="changePassword" 
+                                class="btn btn-default">
+                            <i class="fa fa-envelope-o"></i> Change password</button>
+                        <a href="{{baseUserUrl}}"
+                                class="btn btn-default">
+                            <i class="fa fa-envelope-o"></i> Cancel</a>
+                        {{#unless user.enabled}}
+                            <button type="submit" 
+                                    name="action" 
+                                    value="enableAccount"
+                                    class="btn btn-default rs-enable-account">
+                                <i class="fa fa-recycle fa-lg rs-green"></i> Enable account</button>
+                        {{else}}
+                            <button type="submit" 
+                                    name="action" 
+                                    value="disableAccount"
+                                    class="btn btn-default rs-disable-account">
+                                <i class="fa fa-recycle fa-lg rs-red"></i> Disable account</button>
+                        {{/unless}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

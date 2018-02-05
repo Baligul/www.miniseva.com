@@ -1,0 +1,162 @@
+{{#partial "headcode" }} {{/partial}} {{#partial "footercode" }} {{/partial}} {{#partial "content" }}
+<!-- products-breadcrumb -->
+<div class="products-breadcrumb">
+    <div class="container">
+        <ul>
+            <li>
+                <i class="fa fa-home" aria-hidden="true"></i>
+                <a href="/">Home</a>
+                <span>|</span>
+            </li>
+            <li>Products</li>
+        </ul>
+    </div>
+</div>
+<!-- //products-breadcrumb -->
+<!-- banner -->
+<div class="banner">
+    <div class="w3l_banner_nav_left">
+        <nav class="navbar nav_bottom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header nav_2">
+                <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                <ul class="nav navbar-nav nav_1">
+                    {{#each products}}
+                    <li>
+                        <a href="/items/{{this.slug}}/{{this.id}}">{{this.name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+    </div>
+    <div class="w3l_banner_nav_right">
+        {{#each items}}
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                $("#schedule" + {{ this.id }}).click(function () {
+                    if ($(this).is(":checked")) {
+                        $("#scheduleDiv" + {{ this.id }}).show();
+            $("#oneTimeDiv" + {{ this.id }}).hide();
+                        }
+                    });
+            $("#oneTime" + {{ this.id }}).click(function () {
+                if ($(this).is(":checked")) {
+                    $("#oneTimeDiv" + {{ this.id }}).show();
+            $("#scheduleDiv" + {{ this.id }}).hide();
+                        }
+                    });
+                });
+        </script> {{/each}}
+
+        <div class="w3l_banner_nav_right_banner3_btm">
+            {{#each items}}
+            <div class="col-md-3 top_brand_left">
+                <div class="hover14 column">
+                    <div class="agile_top_brand_left_grid">
+                        <div class="tag">
+                            <img src="/website/images/tag.png" alt=" " class="img-responsive" />
+                        </div>
+                        <div class="agile_top_brand_left_grid1">
+                            <figure>
+                                <div class="snipcart-item block">
+                                    <div class="snipcart-thumb">
+                                        <a>
+                                            <img title=" " alt=" " src="{{this.imgPath}}" />
+                                        </a>
+                                        <p>{{this.name}}</p>
+                                        <h4>
+                                            <i class="fa fa-inr" aria-hidden="true"></i>{{this.price}} 
+                                            {{#if this.mrp}}
+                                                <span>
+                                                    <i class="fa fa-inr" aria-hidden="true"></i>{{this.mrp}}
+                                                </span>
+                                            {{/if}}
+                                        </h4>
+                                    </div>
+                                    <div class="snipcart-details top_brand_home_details">
+                                        <form action="checkout.html" method="post">
+                                            <fieldset>
+                                                <input type="hidden" name="cmd" value="_cart" />
+                                                <input type="hidden" name="add" value="1" />
+                                                <input type="hidden" name="id" value="{{this.id}}" />
+                                                <input type="hidden" name="oneTimeSlots" value="{{oneTimeSlots}}" />
+                                                <input type="hidden" name="allSlots" value="{{allSlots}}" />
+                                                <input type="hidden" name="name" value="{{this.name}}" />
+                                                <input type="hidden" name="mrp" value="{{this.mrp}}" />
+                                                <input type="hidden" name="price" value="{{this.price}}" />
+                                                {{#if this.mrp}}
+                                                    <input type="hidden" name="discount" value="{{#getDiscount this.mrp this.price}}{{/getDiscount}}" />
+                                                {{/if}}
+                                                <input type="hidden" name="currency_code" value="INR" />
+                                                <input type="hidden" name="return" value=" " />
+                                                <input type="hidden" name="cancel_return" value=" " />
+                                                <label for="schedule{{this.id}}">
+                                                    <div class="row">
+                                                        <input value="0" type="radio" id="oneTime{{this.id}}" name="isScheduled" checked /> One time
+                                                        <input value="1" type="radio" id="schedule{{this.id}}" name="isScheduled" /> Schedule
+                                                    </div>
+                                                </label>
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label for="quantity">Quantity</label>
+                                                        <input name="quantity" value="1" type="number" class="form-control" placeholder="1">
+                                                    </div>
+                                                    <div id="oneTimeDiv{{this.id}}">
+                                                        <div class="form-group">
+                                                            <label for="slot">Slot</label>
+                                                            <select name="slot" class="form-control">
+                                                                <option value="">-- Select Slot --</option>
+                                                                <option value="12:00 AM - 2:00 PM">12:00 AM - 2:00 PM</option>
+                                                                <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+                                                                {{#each oneTimeSlots}}
+                                                                <option value="{{this.id}}">{{this.slot}}</option>
+                                                                {{/each}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div id="scheduleDiv{{this.id}}" style="display: none">
+                                                        <div class="form-group">
+                                                            <label for="slot">Slot</label>
+                                                            <select name="slot" class="form-control">
+                                                                <option value="">-- Select Slot --</option>
+                                                                <option value="12:00 AM - 2:00 PM">12:00 AM - 2:00 PM</option>
+                                                                <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+                                                                {{#each allSlots}}
+                                                                <option value="{{this.id}}">{{this.slot}}</option>
+                                                                {{/each}}
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="dates">Dates</label>
+                                                            <input name="dates" type="text" class="form-control date" placeholder="Pick the multiple dates">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="submit" name="submit" value="Add to cart" style="margin-top: 10px" class="button" />
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- //banner -->
+{{/partial}} {{> common/master }}

@@ -1,0 +1,35 @@
+{{#partial "headcode" }} {{/partial}} {{#partial "footercode" }} {{/partial}} {{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if successMsg}}has-error{{/if}}">
+        {{#if successMsg}}<span class="help-block dlxs-validation-error">{{successMsg}}</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="{{documentationUrl}}">Sections</a></li>
+                <li class="active">Add Section</li>
+            </ol>
+            <form action="{{formPostUrl}}" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add Section</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group {{#if sectionError}}has-error{{/if}}">
+                            <label for="section">{{#if sectionError}}<i class="fa fa-times-circle-o"></i>{{/if}} Section </label>                            
+                            {{#if sectionError}}<span class="help-block dlxs-validation-error">({{sectionError}})</span>{{/if}}
+                            <input name="section" value="{{section.section}}" type="text" class="form-control" placeholder="Section">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" name="action" value="save" class="btn btn-success">Save</button>
+                        <a href="{{documentationUrl}}" class="btn btn-default">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /container -->
+{{/partial}} {{> app/common/master }}

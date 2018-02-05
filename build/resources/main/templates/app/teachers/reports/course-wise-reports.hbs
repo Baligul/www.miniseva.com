@@ -1,0 +1,33 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <center>
+                    <h2>Course-wise Performance Report</h2>
+                </center>
+                <div style="height: 600px;">
+                    <input type="hidden" id="coursesOverallPerformanceMap" value="{{coursesOverallPerformanceMap}}" />
+                    <center><div id="overall-performance-bar-chart" style="height: 600px; width:100%"></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div >
+        <center>
+            <a href="{{examwisePerformanceReportsUrl}}"
+                class="btn btn-success">View Exam-wise Performance Report</a>
+            <a href="{{overallPerformanceReportsUrl}}"
+                class="btn btn-default">Back</a>
+        </center>
+        </br>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

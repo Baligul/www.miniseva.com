@@ -1,0 +1,123 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<div class="container min-height-container">
+   <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Courses</h1>
+            </div>
+            {{#if showAddCourseButton}}
+                <div>
+                    <a class="btn btn-primary rs-add-button"
+                            href="{{addCourseUrl}}">
+                        <i class="fa fa-plus"></i> Add Course
+                    </a>
+                </div>
+                {{#unless courses}}
+                    <div class="alert alert-info">
+                        No courses were found. Click <strong>Add Course</strong> to add a course.
+                    </div>
+                {{/unless}}
+            {{else}}
+                {{#unless courses}}
+                    <div class="alert alert-info">
+                        No courses were found. Please ask your administrator/teacher to publish courses.
+                    </div>
+                {{/unless}}
+            {{/if}}
+            {{#if courses}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+            {{#each courses}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-size: 16px; font-weight: bold;">{{this.name}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{this.description}}
+                    </div>
+
+                    <div class="panel-footer" style="background-color: #fff;">
+                        <ul class="nav nav-pills">
+                            <li>
+                                <a href="/app/documentation/{{this.slug}}/{{this.id}}/0?id=0"
+                                class=""><i class="fa fa-files-o"></i> Documentation
+                                    <span class="badge">{{#if showPublishedCounts}}{{this.documentsCountForStudent}}{{else}}{{this.documentsCount}}{{/if}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/app/exams/exam/{{this.slug}}/{{this.id}}"
+                                class=""><i class="fa fa-pencil-square-o"></i> Exams <span class="badge">{{#if showPublishedCounts}}{{this.examCountForStudent}}{{else}}{{this.examCount}}{{/if}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/app/viewcourse/{{this.slug}}/{{this.id}}"
+                                class=""><i class="fa fa-university"></i> View Course
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/app/exams/pe/{{this.slug}}/{{this.id}}"
+                                class=""><i class="fa fa-pencil-square-o"></i> Practice Exams <span class="badge">{{#if showPublishedCounts}}{{this.peCountForStudent}}{{else}}{{this.peCount}}{{/if}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/app/exams/tbe/{{this.slug}}/{{this.id}}"
+                                class=""><i class="fa fa-pencil-square-o"></i> Time Bound Exams <span class="badge">{{#if showPublishedCounts}}{{this.tbeCountForStudent}}{{else}}{{this.tbeCount}}{{/if}}</span>
+                                </a>
+                            </li>
+                             {{#if this.isOwner}}
+                                <div class="pull-right">
+                                    <li>
+                                        {{#if this.examCount}}
+                                            {{!--BH: This API will be POST by teacher/admin/sysadmin and will be called in AuthorExamController--}}
+                                            <form action="/app/exams/exam/{{slug}}/{{subCategoryId}}/{{this.slug}}/{{this.id}}/{{pageNumber}}" method="post">
+                                                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                                                <button type="submit" name="action" value="{{actionPublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Publish all exams</button>
+                                                <button type="submit" name="action" value="{{actionUnpublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Unpublish all exams</button>
+                                            </form>
+                                        {{/if}}
+                                        {{#if this.peCount}}
+                                            {{!--BH: This API will be POST by teacher/admin/sysadmin and will be called in AuthorExamController--}}
+                                            <form action="/app/exams/pe/{{slug}}/{{subCategoryId}}/{{this.slug}}/{{this.id}}/{{pageNumber}}" method="post">
+                                                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                                                <button type="submit" name="action" value="{{actionPublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Publish all practice exams</button>
+                                                <button type="submit" name="action" value="{{actionUnpublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Unpublish all practice exams</button>
+                                            </form>
+                                        {{/if}}
+                                        {{#if this.tbeCount}}
+                                            {{!--BH: This API will be POST by teacher/admin/sysadmin and will be called in AuthorExamController--}}
+                                            <form action="/app/exams/tbe/{{slug}}/{{subCategoryId}}/{{this.slug}}/{{this.id}}/{{pageNumber}}" method="post">
+                                                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                                                <button type="submit" name="action" value="{{actionPublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Publish all time bound exams</button>
+                                                <button type="submit" name="action" value="{{actionUnpublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Unpublish all time bound exams</button>
+                                            </form>
+                                        {{/if}}
+                                        {{!--BH: This API will be POST by teacher/admin/sysadmin and will be called in AuthorCourseController--}}
+                                        <form action="{{baseAuthorCourseUrl}}/{{this.id}}/{{pageNumber}}" method="post">
+                                            <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                                            {{#unless this.published}}
+                                                <button type="submit" name="action" value="{{actionPublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Publish</button>
+                                            {{else}}
+                                                <button type="submit" name="action" value="{{actionUnpublish}}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Unpublish</button>
+                                            {{/unless}}
+                                        </form>
+                                    </li>
+                                </div>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            {{/each}}
+            {{#if courses}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+        </div>
+    </div>
+   <!-- /row -->
+</div>
+<!-- /container -->
+{{/partial}}
+{{> app/common/master }}

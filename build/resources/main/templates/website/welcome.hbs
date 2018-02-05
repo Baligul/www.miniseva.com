@@ -1,0 +1,99 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<div class="page-wrapper">
+   <div class="container">
+      <center>
+         <div>
+            {{#if success}}
+            <img src="/website/images/coursesignup/ps.png" class="img-responsive" alt=""/>
+            {{else}}
+            <img src="/website/images/coursesignup/pu.png" class="img-responsive" alt=""/>
+            {{/if}}
+         </div>
+      </center>
+      <center>
+         <h2>Thank you for your interest in MiniSeva Digital Learning System</h2>
+         {{#unless success}}
+         <h2>Your payment has failed. Please try after sometime. If amount has been deducted from your account than it will be credited back to your account with in next 7 days.</h2>
+         {{/unless}}
+      </center>
+      <div class="detail">
+         {{#if success}}
+         <h3 style="color:goldenrod;">Order Details</h3>
+         {{else}}
+         <h3 style="color:red;">Failed Order Details</h3>
+         {{/if}}
+         <div class="wow fadeInUp animated" data-wow-delay=".5s">
+            <div class="course_list">
+               <div class="table-header clearfix">
+                  <div class="id_col">PID</div>
+                  <div class="name_col">Package Name</div>
+                  <div class="duration_col">Duration</div>
+                  <div class="duration_col">Price</div>
+               </div>
+               <ul class="table-list">
+                  {{#each subcategories}}
+                  <li class="clearfix">
+                     <div class="id_col">{{this.id}}</div>
+                     <div class="name_col">
+                        <a href="/package-details/{{this.slug}}/{{this.id}}">
+                           {{this.name}}
+                           <p>
+                              {{this.description}}
+                           </p>
+                        </a>
+                     </div>
+                     <div class="duration_col"><i class="fa fa-clock-o" aria-hidden="true"></i> {{this.duration}}</div>
+                    {{#ifeqStr domain "MiniSevaIndia.com"}}
+                        <div class="duration_col"><i class="fa fa-inr" aria-hidden="true"></i> {{this.priceInr}}.00</div>
+                    {{/ifeqStr}}
+                    {{#ifeqStr domain "MiniSevaLMS.com"}}
+                        <div class="duration_col"><i class="fa fa-usd" aria-hidden="true"></i>{{this.priceUsd}}</div>
+                    {{/ifeqStr}}
+                  </li>
+                  {{/each}}
+               </ul>
+            </div>
+         </div>
+      </div>
+      <br>
+      <table class="order_table">
+         <tbody>
+            <tr class="order_table_tr">
+               <td class="order_table_td"><b>Razorpay Payment Id</b>: {{razorpayPaymentId}}</td>
+               <td class="order_table_td"><b>Razorpay Order Id</b>: {{razorpayOrderId}}</td>
+               <td class="order_table_td"><b>Merchant Order Id</b>: {{merchantOrderId}}</td>
+            </tr>
+            {{#if discount}}
+                {{#ifeqStr domain "MiniSevaIndia.com"}}
+                    <tr class="order_table_tr">
+                    <td class="order_table_td"><b>Discount</b>: - <i class="fa fa-inr" aria-hidden="true"></i> {{discount}}.00</td>
+                    <td class="order_table_td" colspan="2"><b>Coupon Used</b>: {{coupon}}</td>
+                    </tr>
+                {{/ifeqStr}}
+            {{/if}}
+            <tr class="order_table_tr">
+               <td class="order_table_td"><b>Date of Purchased</b>: {{purchasedDate}}</td>
+               {{#ifeqStr domain "MiniSevaIndia.com"}}
+                    <td class="order_table_td" colspan="2"><b>Amount Paid</b>: <i class="fa fa-inr" aria-hidden="true"></i> {{total}}.00</td>
+               {{/ifeqStr}}
+               {{#ifeqStr domain "MiniSevaLMS.com"}}
+                    <td class="order_table_td" colspan="2"><b>Amount Paid</b>: <i class="fa fa-usd" aria-hidden="true"></i>{{total}}</td>
+               {{/ifeqStr}}
+            </tr>
+         </tbody>
+      </table>
+      <br>
+      {{#if success}}
+      <center><a class="btn btn-success" href="/app">Start Learning</a></center>
+      {{else}}
+      <center><a class="btn btn-success" href="packages-signup?coupon={{coupon}}&amount={{amount}}&total={{total}}&discount={{discount}}{{#each subcategoriesIds}}&subcategoriesIds={{this}}{{/each}}">Try again</a></center>
+      {{/if}}
+      <br>
+   </div>
+</div>
+{{/partial}}
+{{> common/master }}

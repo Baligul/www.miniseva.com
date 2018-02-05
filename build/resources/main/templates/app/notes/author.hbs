@@ -1,0 +1,38 @@
+{{#partial "headcode" }} {{/partial}} {{#partial "footercode" }} {{/partial}} {{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if noteError}}has-error{{/if}}">
+        {{#if noteError}}<span class="help-block dlxs-validation-error">({{noteError}})</span>{{/if}}
+    </div>
+    <div class="row">
+        <!-- Content Section -->
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/app/notes">Notes</a></li>
+                    <li class="active">{{#if editMode}}Note Details{{else}}Add Note{{/if}}</li>
+                </ol>
+                <form action="{{formPostUrl}}" method="post">
+                    <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{#if editMode}}Note{{else}}Add Note{{/if}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <textarea class="form-control" autofocus id="note" name="note" placeholder="Note" rows="5">{{note.note}}</textarea>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" class="btn btn-success" name="action" value="Save">{{#if editMode}}Save Changes{{else}}Save Note{{/if}}</button>
+                            <button type="submit" class="btn btn-default" name="action" value="Cancel">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- col-lg-8 / Content Section -->
+    </div>
+    <!-- /row -->
+</div>
+<!-- /container -->
+{{/partial}} {{> app/common/master }}
