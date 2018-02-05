@@ -36,17 +36,20 @@
                 event.preventDefault();
                 $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
             });
-            $('.date').datepicker({
-                multidate: true,
-                format: 'dd-mm-yyyy'
-            });
-            $('.cart-date').datepicker({
-                multidate: true,
-                format: 'dd-mm-yyyy'
-            });
         });
     </script>
     <!-- start-smoth-scrolling -->
+    <!-- Bind datepicker to all the elements -->
+    <script type="text/javascript">
+        $(function () {
+            $("body").delegate(".date", "focusin", function () {
+                $(this).datepicker({
+                    multidate: true,
+                    format: 'dd-mm-yyyy'
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
