@@ -2151,10 +2151,18 @@
         }
       },
       allSlots: function (value) {
-        return JSON.parse(value) || "";
+        if(value.constructor.isArray) {
+          return value;
+        } else {
+          return JSON.parse(value) || "";
+        }
       },
       todaysSlots: function (value) {
-        return JSON.parse(value) || "";
+        if(value.constructor.isArray) {
+          return value;
+        } else {
+          return JSON.parse(value) || "";
+        }
       },
       isScheduled: function (value) {
         return value || 0;
