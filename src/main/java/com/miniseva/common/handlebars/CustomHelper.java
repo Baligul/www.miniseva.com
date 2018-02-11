@@ -109,11 +109,11 @@ public class CustomHelper {
         return options.inverse();
     }
 
-    public CharSequence getDiscount(Integer val, Options options) throws IOException {
+    public CharSequence getPrice(Integer val, Options options) throws IOException {
         if (val == null || options.param(0) == null) return "";
 
-        int discount = val - (Integer) options.param(0);
+        int price = val - (Integer) options.param(0);
 
-        return "" + discount + "";
+        return "" + price + "";
     }
 }

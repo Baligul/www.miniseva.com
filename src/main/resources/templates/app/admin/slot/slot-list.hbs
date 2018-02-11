@@ -15,61 +15,37 @@
                 {{> app/components/page_search }}
             </div>
             <div class="page-header" name="top">
-                <h1>Items</h1>
+                <h1>Slots</h1>
             </div>
             {{#if isRootRole }}
-                <a href="{{addItemUrl}}"
+                <a href="{{addSlotUrl}}"
                     class="btn btn-primary rs-add-button">
-                <i class="fa fa-plus"></i> Add Item</a>
-                {{#if items}}
+                <i class="fa fa-plus"></i> Add Slot</a>
+                {{#if slots}}
                     {{> app/components/previous-next-links }}
                     <table show-filter="false"
                         class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th class="header">
-                                    <div>Name</div>
+                                    <div>Slot</div>
                                 </th>                                
                                 <th class="header">
-                                    <div>Product</div>
-                                </th>
-                                <th class="header">
-                                    <div>Discount</div>
-                                </th>
-                                <th class="header">
-                                    <div>Price</div>
-                                </th>
-                                <th class="header">
-                                    <div>Description</div>
-                                </th>                            
+                                    <div>End time</div>
+                                </th>                          
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each items}}
+                            {{#each slots}}
                                 <tr class="rs-clickable">
                                     <td>
                                         <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.name}}
+                                            {{this.slotVal}}
                                         </a>
                                     </td>
                                     <td>
                                         <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.productName}}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.discount}}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.price}}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.description}}
+                                            {{this.endTime}}
                                         </a>
                                     </td>
                                 </tr>
@@ -78,12 +54,12 @@
                     </table>
                 {{else}}
                     <div class="alert alert-info">
-                        No items were found. Click <strong>Add Item</strong> to add an item.
+                        No slots were found. Click <strong>Add Slot</strong> to add an slot.
                     </div>
                 {{/if}}
             {{/if}}
         </div>
-        {{#if items}}
+        {{#if slots}}
             {{> app/components/previous-next-links }}
         {{/if}}
     </div>

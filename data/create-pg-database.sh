@@ -88,6 +88,8 @@ echo "- product"
 $PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/product.sql
 echo "- item"
 $PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/item.sql
+echo "- slot"
+$PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/slot.sql
 
 # Grant role permissions
 # ------------------------------------------------------------------------------

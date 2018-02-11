@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.miniseva.app.product.Product;
 import com.miniseva.app.product.ProductRepository;
 
+import com.miniseva.app.slot.Slot;
+import com.miniseva.app.slot.SlotRepository;
+
 import com.miniseva.app.item.Item;
 import com.miniseva.app.item.ItemRepository;
 
@@ -20,11 +23,14 @@ public class ItemsController {
 
     private ItemRepository repoItem;
     private ProductRepository repoProduct;
+    private SlotRepository repoSlot;
 
     public ItemsController(ItemRepository repoItem,
-                           ProductRepository repoProduct) {
+                           ProductRepository repoProduct,
+                           SlotRepository repoSlot) {
         this.repoItem = repoItem;
         this.repoProduct = repoProduct;
+        this.repoSlot = repoSlot;
     }
 
 
@@ -37,6 +43,8 @@ public class ItemsController {
         model.addAttribute("product", repoProduct.findById(productId));
         model.addAttribute("items",repoItem.findByProductId(productId));
         model.addAttribute("products",repoProduct.findAll());
+        model.addAttribute("allSlots", repoSlot.findAll());
+        model.addAttribute("todaysSlots", repoSlot.getTodaysSlots());
         
         return "website/item";
     }

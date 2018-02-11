@@ -40,12 +40,12 @@
                                 {{/each}}
                             </select>
                         </div>
-                        <div class="form-group {{#if mrpError}}has-error{{/if}}">
-                            <label for="mrp">{{#if mrpError}}
-                                <i class="fa fa-times-circle-o"></i>{{/if}} MRP </label>
-                            {{#if mrpError}}
-                            <span class="help-block dlxs-validation-error">({{mrpError}})</span>{{/if}}
-                            <input name="mrp" value="{{item.mrp}}" type="number" class="form-control" placeholder="MRP">
+                        <div class="form-group {{#if discountError}}has-error{{/if}}">
+                            <label for="discount">{{#if discountError}}
+                                <i class="fa fa-times-circle-o"></i>{{/if}} Discount </label>
+                            {{#if discountError}}
+                            <span class="help-block dlxs-validation-error">({{discountError}})</span>{{/if}}
+                            <input name="discount" value="{{item.discount}}" type="number" class="form-control" placeholder="Discount">
                         </div>
                         <div class="form-group {{#if priceError}}has-error{{/if}}">
                             <label for="price">{{#if priceError}}

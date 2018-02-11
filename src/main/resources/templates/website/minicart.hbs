@@ -30,10 +30,31 @@
                         </ul>
                     </div>
                     <div class="minicart-details-slot">
-                        <%=items[i].get("slot") %>
+                        <select class="minicart-slot" data-minicart-idx="<%=i %>" name="slot_<%=idx %>">
+                            <% var isScheduled = items[i].get("isScheduled") %>
+
+                            <% if(isScheduled == 0) {%>
+                                <% var slots = items[i].get("todaysSlots") %>
+                                <% for (var key in slots){%>
+                                    <option <% if (slots[key]["slotVal"] == items[i].get("slotToday")) {%>selected<%}%>  value="<%=slots[key]["slotVal"] %>"><%=slots[key]["slotVal"] %></option>
+                                <%}%>
+                            <%}%>
+                            
+                            <% if(isScheduled == 1) {%>
+                                <% slots = items[i].get("allSlots") %>
+                                <% for (var key in slots){%>
+                                    <option <% if (slots[key]["slotVal"] == items[i].get("slotSchedule")) {%>selected<%}%>  value="<%=slots[key]["slotVal"] %>"><%=slots[key]["slotVal"] %></option>
+                                <%}%>
+                            <%}%>                          
+                        </select>
                     </div>
                     <div class="minicart-details-dates">
-                        <input data-minicart-idx="<%=i %>" name="dates_<%=idx %>" value="<%=items[i].get("dates") %>" type="text" class="form-control date" placeholder="Pick the multiple dates">
+                        <% if(isScheduled == 0) {%>
+                            Today
+                        <%}%>                        
+                        <% if(isScheduled == 1) {%>
+                            <input data-minicart-idx="<%=i %>" name="dates_<%=idx %>" value="<%=items[i].get("dates") %>" type="text" class="minicart-dates date" placeholder="Pick the multiple dates">
+                        <%}%>
                     </div>
                     <div class="minicart-details-quantity">
                         <input class="minicart-quantity" data-minicart-idx="<%=i %>" name="quantity_<%=idx %>" type="text" pattern="[0-9]*" value="<%=items[i].get("quantity") %>" autocomplete="off" /> </div>

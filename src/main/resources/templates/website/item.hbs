@@ -75,12 +75,12 @@
                                         </a>
                                         <p>{{this.name}}</p>
                                         <h4>
-                                            <i class="fa fa-inr" aria-hidden="true"></i>{{this.price}} 
-                                            {{#if this.mrp}}
+                                            {{#if this.discount}}
                                                 <span>
-                                                    <i class="fa fa-inr" aria-hidden="true"></i>{{this.mrp}}
+                                                    <i class="fa fa-inr" aria-hidden="true"></i>{{this.price}}
                                                 </span>
                                             {{/if}}
+                                            <i class="fa fa-inr" {{#if this.discount}}style="padding-left:1em;"{{/if}} aria-hidden="true"></i>{{#getPrice this.price this.discount}}{{/getPrice}}
                                         </h4>
                                     </div>
                                     <div class="snipcart-details top_brand_home_details">
@@ -89,20 +89,19 @@
                                                 <input type="hidden" name="cmd" value="_cart" />
                                                 <input type="hidden" name="add" value="1" />
                                                 <input type="hidden" name="id" value="{{this.id}}" />
-                                                <input type="hidden" name="oneTimeSlots" value="{{oneTimeSlots}}" />
+                                                <input type="hidden" name="todaysSlots" value="{{todaysSlots}}" />
                                                 <input type="hidden" name="allSlots" value="{{allSlots}}" />
                                                 <input type="hidden" name="name" value="{{this.name}}" />
-                                                <input type="hidden" name="mrp" value="{{this.mrp}}" />
                                                 <input type="hidden" name="price" value="{{this.price}}" />
-                                                {{#if this.mrp}}
-                                                    <input type="hidden" name="discount" value="{{#getDiscount this.mrp this.price}}{{/getDiscount}}" />
+                                                {{#if this.discount}}
+                                                    <input type="hidden" name="discount" value="{{this.discount}}" />
                                                 {{/if}}
                                                 <input type="hidden" name="currency_code" value="INR" />
                                                 <input type="hidden" name="return" value=" " />
                                                 <input type="hidden" name="cancel_return" value=" " />
                                                 <label for="schedule{{this.id}}">
                                                     <div class="row">
-                                                        <input value="0" type="radio" id="oneTime{{this.id}}" name="isScheduled" checked /> One time
+                                                        <input value="0" type="radio" id="oneTime{{this.id}}" name="isScheduled" checked /> Today
                                                         <input value="1" type="radio" id="schedule{{this.id}}" name="isScheduled" /> Schedule
                                                     </div>
                                                 </label>
@@ -113,26 +112,22 @@
                                                     </div>
                                                     <div id="oneTimeDiv{{this.id}}">
                                                         <div class="form-group">
-                                                            <label for="slot">Slot</label>
-                                                            <select name="slot" class="form-control">
+                                                            <label for="slotToday">Slot</label>
+                                                            <select name="slotToday" class="form-control">
                                                                 <option value="">-- Select Slot --</option>
-                                                                <option value="12:00 AM - 2:00 PM">12:00 AM - 2:00 PM</option>
-                                                                <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
-                                                                {{#each oneTimeSlots}}
-                                                                <option value="{{this.id}}">{{this.slot}}</option>
+                                                                {{#each todaysSlots}}
+                                                                    <option value="{{this.slotVal}}">{{this.slotVal}}</option>
                                                                 {{/each}}
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div id="scheduleDiv{{this.id}}" style="display: none">
                                                         <div class="form-group">
-                                                            <label for="slot">Slot</label>
-                                                            <select name="slot" class="form-control">
+                                                            <label for="slotSchedule">Slot</label>
+                                                            <select name="slotSchedule" class="form-control">
                                                                 <option value="">-- Select Slot --</option>
-                                                                <option value="12:00 AM - 2:00 PM">12:00 AM - 2:00 PM</option>
-                                                                <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
                                                                 {{#each allSlots}}
-                                                                <option value="{{this.id}}">{{this.slot}}</option>
+                                                                    <option value="{{this.slotVal}}">{{this.slotVal}}</option>
                                                                 {{/each}}
                                                             </select>
                                                         </div>

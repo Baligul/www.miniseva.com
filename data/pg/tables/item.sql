@@ -2,7 +2,7 @@ CREATE TABLE item
 (
     id                      BIGSERIAL,
     name                    VARCHAR(256) NOT NULL,
-    mrp                     INTEGER,
+    discount                INTEGER DEFAULT 0,
     price                   INTEGER NOT NULL,
     description             VARCHAR(1024),
     img_path                VARCHAR(256),

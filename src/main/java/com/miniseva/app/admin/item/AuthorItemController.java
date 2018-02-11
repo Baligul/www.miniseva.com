@@ -105,7 +105,7 @@ public class AuthorItemController {
                 savedItem.setUpdatedBy(userId);
                 savedItem.setUpdatedOn(DateTime.now());
                 savedItem.setName(item.getName());
-                savedItem.setMrp(item.getMrp());
+                savedItem.setDiscount(item.getDiscount());
                 savedItem.setPrice(item.getPrice());
                 savedItem.setDescription(item.getDescription());
                 savedItem.setImgPath(item.getImgPath());

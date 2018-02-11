@@ -1,4 +1,4 @@
-package com.miniseva.app.item;
+package com.miniseva.app.slot;
 
 import javax.persistence.*;
 
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;;
 
@@ -16,30 +17,20 @@ import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
-public class Item implements Serializable {
-    private static final Logger log = LoggerFactory.getLogger(Item.class);
+public class Slot implements Serializable {
+    private static final Logger log = LoggerFactory.getLogger(Slot.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Size(min=1, max=256)
-    private String name;
+    @Size(min=1, max=12)
+    @Column(name="slot_val", unique=true)
+    private String slotVal;
 
-    private int discount;
-
-    @Min(1)
-    private int price;
-    
-    private String description;
-
-    @Column(name = "img_path")
-    private String imgPath;
-
-    @NotNull
-    @Column(name = "product_id")
-    private Long productId;
+    @Column(name = "end_time")
+    private LocalTime endTime;
 
     @Column(name = "updated_by")
     private Long updatedBy;
@@ -68,22 +59,15 @@ public class Item implements Serializable {
     @Transient
     private String createdOnFormatted;
 
-    @Transient
-    private String productName;
-    
-    protected Item() {
+    protected Slot() {
     }
 
-    public Item(Long id, String name, int discount, int price, String description, String imgPath, Long productId,
-            Long updatedBy, Long createdBy, DateTime updatedOn, DateTime createdOn) {
+    public Slot(Long id, String slotVal, LocalTime endTime,
+                Long updatedBy, Long createdBy, DateTime updatedOn, DateTime createdOn) {
 
         this.id = id;
-        this.name = name;
-        this.discount = discount;
-        this.price = price;
-        this.description = description;
-        this.imgPath = imgPath;
-        this.productId = productId;
+        this.slotVal = slotVal;
+        this.endTime = endTime;
         this.updatedBy = updatedBy;
         this.createdBy = createdBy;
         this.updatedOn = updatedOn;
@@ -116,52 +100,20 @@ public class Item implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSlotVal() {
+        return slotVal;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSlotVal(String slotVal) {
+        this.slotVal = slotVal;
     }
 
-    public int getDiscount() {
-        return discount;
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
     
     public Long getCreatedBy() {
@@ -216,29 +168,10 @@ public class Item implements Serializable {
         return createdOnFormatted;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    @Override
+    @Override    
     public String toString() {
-        return "Item{" +
-                ", id=" + (id != null ? id : "") +
-                ", name=" + (name != null ? name : "") +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", description=" + (description != null ? description : "") +
-                ", imgPath=" + (imgPath != null ? imgPath : "") +
-                ", productId=" + (productId != null ? productId : "") +
-                ", updatedBy=" + updatedBy +
-                ", createdBy=" + createdBy +
-                ", updatedOn=" + (updatedOn != null ? updatedOn.toString() : "") +
-                ", createdOn=" + (createdOn != null ? createdOn.toString() : "") +
+        return "{" +
+                "\"slotVal\":" + (slotVal != null ? "\"" + slotVal + "\"" : "\"\"") +
                 '}';
     }
-
 }
