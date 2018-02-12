@@ -45,7 +45,8 @@
             $("body").delegate(".date", "focusin", function () {
                 $(this).datepicker({
                     multidate: true,
-                    format: 'dd-mm-yyyy'
+                    format: 'dd-mm-yyyy',
+                    startDate: '+1d'
                 });
             });
         });

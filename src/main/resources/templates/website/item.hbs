@@ -46,17 +46,25 @@
                 $("#schedule" + {{ this.id }}).click(function () {
                     if ($(this).is(":checked")) {
                         $("#scheduleDiv" + {{ this.id }}).show();
-            $("#oneTimeDiv" + {{ this.id }}).hide();
-                        }
-                    });
-            $("#oneTime" + {{ this.id }}).click(function () {
-                if ($(this).is(":checked")) {
-                    $("#oneTimeDiv" + {{ this.id }}).show();
-            $("#scheduleDiv" + {{ this.id }}).hide();
-                        }
-                    });
+                        $("#oneTimeDiv" + {{ this.id }}).hide();
+                    }
                 });
-        </script> {{/each}}
+                $("#oneTime" + {{ this.id }}).click(function () {
+                    if ($(this).is(":checked")) {
+                        if($("#todaysSlots").val() == "undefined") {
+                            alert("The booking for today is closed. Please schedule this item for tomorrow.");
+                            $("#oneTimeDiv" + {{ this.id }}).hide();
+                            $("#scheduleDiv" + {{ this.id }}).show();
+                            $("#schedule" + {{ this.id }}).prop("checked", true);
+                        } else {
+                            $("#oneTimeDiv" + {{ this.id }}).show();
+                            $("#scheduleDiv" + {{ this.id }}).hide();
+                        }                        
+                    }
+                });
+            });
+        </script> 
+        {{/each}}
 
         <div class="w3l_banner_nav_right_banner3_btm">
             {{#each items}}
@@ -89,7 +97,11 @@
                                                 <input type="hidden" name="cmd" value="_cart" />
                                                 <input type="hidden" name="add" value="1" />
                                                 <input type="hidden" name="id" value="{{this.id}}" />
-                                                <input type="hidden" name="todaysSlots" value="{{todaysSlots}}" />
+                                                {{#if todaysSlots}}
+                                                    <input id="todaysSlots" type="hidden" name="todaysSlots" value="{{todaysSlots}}" />
+                                                {{else}}
+                                                    <input id="todaysSlots" type="hidden" name="todaysSlots" value="undefined" />
+                                                {{/if}}
                                                 <input type="hidden" name="allSlots" value="{{allSlots}}" />
                                                 <input type="hidden" name="name" value="{{this.name}}" />
                                                 <input type="hidden" name="price" value="{{this.price}}" />
@@ -101,8 +113,8 @@
                                                 <input type="hidden" name="cancel_return" value=" " />
                                                 <label for="schedule{{this.id}}">
                                                     <div class="row">
-                                                        <input value="0" type="radio" id="oneTime{{this.id}}" name="isScheduled" checked /> Today
-                                                        <input value="1" type="radio" id="schedule{{this.id}}" name="isScheduled" /> Schedule
+                                                        <input value="0" type="radio" id="oneTime{{this.id}}" name="isScheduled" {{#if todaysSlots}}checked{{/if}} /> Today
+                                                        <input value="1" type="radio" id="schedule{{this.id}}" name="isScheduled" {{#unless todaysSlots}}checked{{/unless}} /> Schedule
                                                     </div>
                                                 </label>
                                                 <div class="row">
@@ -110,7 +122,7 @@
                                                         <label for="quantity">Quantity</label>
                                                         <input name="quantity" value="1" type="number" class="form-control" placeholder="1">
                                                     </div>
-                                                    <div id="oneTimeDiv{{this.id}}">
+                                                    <div id="oneTimeDiv{{this.id}}" {{#unless todaysSlots}}style="display: none"{{/unless}}>
                                                         <div class="form-group">
                                                             <label for="slotToday">Slot</label>
                                                             <select name="slotToday" class="form-control">
@@ -121,7 +133,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div id="scheduleDiv{{this.id}}" style="display: none">
+                                                    <div id="scheduleDiv{{this.id}}" {{#if todaysSlots}}style="display: none"{{/if}}>
                                                         <div class="form-group">
                                                             <label for="slotSchedule">Slot</label>
                                                             <select name="slotSchedule" class="form-control">

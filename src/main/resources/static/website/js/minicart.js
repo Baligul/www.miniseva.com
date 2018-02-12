@@ -1772,8 +1772,8 @@
       // Look to see if the same product has already been added
       for (i = 0, len = items.length; i < len; i++) {
         if (items[i].isEqual(data)) {
-          product = items[i];
-          product.set('quantity', product.get('quantity') + (parseInt(data.quantity, 10) || 1));
+          // product = items[i];
+          // product.set('quantity', product.get('quantity') + (parseInt(data.quantity, 10) || 1));
           idx = i;
           isExisting = true;
           break;
@@ -2039,6 +2039,10 @@
 
       QUANTITY_CLASS: 'minicart-quantity',
 
+      DATES_CLASS: 'minicart-dates',
+
+      SLOT_CLASS: 'minicart-slot',
+
       ITEM_CLASS: 'minicart-item',
 
       ITEM_CHANGED_CLASS: 'minicart-item-changed',
@@ -2151,6 +2155,9 @@
         }
       },
       allSlots: function (value) {
+        if(value == "" || value == undefined) {
+          return "";
+        }
         if(value.constructor.isArray) {
           return value;
         } else {
@@ -2158,6 +2165,9 @@
         }
       },
       todaysSlots: function (value) {
+        if(value == "undefined" || value == "" || value == undefined) {
+          return "";
+        }
         if(value.constructor.isArray) {
           return value;
         } else {
@@ -2299,7 +2309,7 @@
           result += parser.price(this.get('discount_rate2') || rate) * price * limit / 100;
         }
 
-        this._discount = result;
+        this._discount = result * this.get('dates').split(",").length;
       }
 
       return currency(this._discount, config);
@@ -2340,7 +2350,7 @@
       var result;
 
       if (!this._total) {
-        result = this.get('quantity') * this.price();
+        result = this.get('dates').split(",").length * this.get('quantity') * this.price();
         result -= this.discount();
 
         this._total = parser.price(result);
@@ -3252,8 +3262,35 @@
             this.hide();
           }
         }
-      },
 
+        // var that = this,
+        //   target = evt.target,
+        //   timer;
+
+        // if (target.className === constants.DATES_CLASS) {
+        //   timer = setTimeout(function () {
+        //     var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
+        //       cart = that.model.cart,
+        //       product = cart.items(idx),
+        //       dates = target.value;
+
+        //     if (product) {
+        //       product.set('dates', dates);
+        //     }
+        //   }, constants.KEYUP_TIMEOUT);
+        // } else if (target.className === constants.SLOT_CLASS) {
+        //   timer = setTimeout(function () {
+        //     var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
+        //       cart = that.model.cart,
+        //       product = cart.items(idx),
+        //       slot = target.value;
+
+        //     if (product) {
+        //       product.set('slot', slot);
+        //     }
+        //   }, constants.KEYUP_TIMEOUT);
+        // }
+      },
 
       keyup: function (evt) {
         var that = this,
@@ -3277,8 +3314,6 @@
           }, constants.KEYUP_TIMEOUT);
         }
       },
-
-
       readystatechange: function () {
         if (/interactive|complete/.test(document.readyState)) {
           var forms, form, i, len;

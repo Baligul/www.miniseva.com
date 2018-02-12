@@ -44,7 +44,10 @@ public class ItemsController {
         model.addAttribute("items",repoItem.findByProductId(productId));
         model.addAttribute("products",repoProduct.findAll());
         model.addAttribute("allSlots", repoSlot.findAll());
-        model.addAttribute("todaysSlots", repoSlot.getTodaysSlots());
+        
+        if(repoSlot.getTodaysSlots().size() > 0) {
+            model.addAttribute("todaysSlots", repoSlot.getTodaysSlots());
+        }
         
         return "website/item";
     }
