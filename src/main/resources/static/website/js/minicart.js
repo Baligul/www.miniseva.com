@@ -1770,15 +1770,15 @@
       }
 
       // Look to see if the same product has already been added
-      for (i = 0, len = items.length; i < len; i++) {
-        if (items[i].isEqual(data)) {
-          // product = items[i];
-          // product.set('quantity', product.get('quantity') + (parseInt(data.quantity, 10) || 1));
-          idx = i;
-          isExisting = true;
-          break;
-        }
-      }
+      // for (i = 0, len = items.length; i < len; i++) {
+      //   if (items[i].isEqual(data)) {
+      //     product = items[i];
+      //     product.set('quantity', product.get('quantity') + (parseInt(data.quantity, 10) || 1));
+      //     idx = i;
+      //     isExisting = true;
+      //     break;
+      //   }
+      // }
 
       // If not, then try to add it
       if (!product) {
@@ -2402,7 +2402,21 @@
      * @return {boolean}
      */
     Product.prototype.isValid = function isValid() {
-      return (this.get('name') && this.price() > 0);
+      if (this.get('isScheduled') == 1) {
+        if (this.get('name') && this.price() > 0 && this.get('dates') && this.get('slotSchedule')) {
+          return true;
+        } else {
+          return false
+        }
+      } else if (this.get('isScheduled') == 0) {
+        if (this.get('name') && this.price() > 0 && this.get('slotToday')) {
+          return true;
+        } else {
+          return false
+        }
+      }
+      
+      return false;
     };
 
 
@@ -3092,6 +3106,7 @@
       // JavaScript
       events.add(document, ('ontouchstart' in window) ? 'touchstart' : 'click', viewevents.click, this);
       events.add(document, 'keyup', viewevents.keyup, this);
+      events.add(document, 'change', viewevents.change, this);
       events.add(document, 'readystatechange', viewevents.readystatechange, this);
       events.add(window, 'pageshow', viewevents.pageshow, this);
     }
@@ -3262,34 +3277,38 @@
             this.hide();
           }
         }
+      },
 
-        // var that = this,
-        //   target = evt.target,
-        //   timer;
+      change: function (evt) {
 
-        // if (target.className === constants.DATES_CLASS) {
-        //   timer = setTimeout(function () {
-        //     var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
-        //       cart = that.model.cart,
-        //       product = cart.items(idx),
-        //       dates = target.value;
+        var that = this,
+          target = evt.target,
+          timer;
 
-        //     if (product) {
-        //       product.set('dates', dates);
-        //     }
-        //   }, constants.KEYUP_TIMEOUT);
-        // } else if (target.className === constants.SLOT_CLASS) {
-        //   timer = setTimeout(function () {
-        //     var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
-        //       cart = that.model.cart,
-        //       product = cart.items(idx),
-        //       slot = target.value;
+        if (target.className === constants.DATES_CLASS) {
+          timer = setTimeout(function () {
+            var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
+              cart = that.model.cart,
+              product = cart.items(idx),
+              dates = target.value;
 
-        //     if (product) {
-        //       product.set('slot', slot);
-        //     }
-        //   }, constants.KEYUP_TIMEOUT);
-        // }
+            if (product) {
+              product.set('dates', dates);
+            }
+          }, constants.KEYUP_TIMEOUT);
+        } else if (target.className === constants.SLOT_CLASS) {
+          timer = setTimeout(function () {
+            var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
+              cart = that.model.cart,
+              product = cart.items(idx),
+              slot = target.value;
+
+            if (product) {
+              product.set('slotToday', slot);
+              product.set('slotSchedule', slot);
+            }
+          }, constants.KEYUP_TIMEOUT);
+        }
       },
 
       keyup: function (evt) {
