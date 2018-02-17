@@ -8,7 +8,9 @@
  * @license MIT <https://github.com/jeffharrell/minicart/raw/master/LICENSE.md>
  */
 
-;
+
+var cartForm;
+
 (function e(t, n, r) {
   function s(o, u) {
     if (!n[o]) {
@@ -155,7 +157,7 @@
             'typeof prototype[' + (typeof prototype) + '] != \'object\''
           );
         }
-        var Type = function () {};
+        var Type = function () { };
         Type.prototype = prototype;
         object = new Type();
         object.__proto__ = prototype;
@@ -976,8 +978,8 @@
     function timestamp() {
       var d = new Date();
       var time = [pad(d.getHours()),
-        pad(d.getMinutes()),
-        pad(d.getSeconds())
+      pad(d.getMinutes()),
+      pad(d.getSeconds())
       ].join(':');
       return [d.getDate(), months[d.getMonth()], time].join(' ');
     }
@@ -1263,7 +1265,7 @@
             js = '';
           }
 
-          while (~(n = js.indexOf("\n", n))) n++, lineno++;
+          while (~(n = js.indexOf("\n", n))) n++ , lineno++;
           if (js.substr(0, 1) == ':') js = filtered(js);
           if (js) {
             if (js.lastIndexOf('//') > js.lastIndexOf('\n')) js += '\n';
@@ -1313,8 +1315,8 @@
         compileDebug = options.compileDebug !== false,
         client = options.client,
         filename = options.filename ?
-        JSON.stringify(options.filename) :
-        'undefined';
+          JSON.stringify(options.filename) :
+          'undefined';
 
       if (compileDebug) {
         // Adds the fancy stack trace meta info
@@ -1446,9 +1448,9 @@
       require.extensions['.ejs'] = function (module, filename) {
         filename = filename || module.filename;
         var options = {
-            filename: filename,
-            client: true
-          },
+          filename: filename,
+          client: true
+        },
           template = fs.readFileSync(filename).toString(),
           fn = compile(template, options);
         module._compile('module.exports = ' + fn.toString() + ';', filename);
@@ -2029,7 +2031,7 @@
 
       BN: 'MiniCart_AddToCart_WPS_US',
 
-      KEYUP_TIMEOUT: 500,
+      EVENT_TIMEOUT: 500,
 
       SHOWING_CLASS: 'minicart-showing',
 
@@ -2039,7 +2041,7 @@
 
       QUANTITY_CLASS: 'minicart-quantity',
 
-      DATES_CLASS: 'minicart-dates',
+      DATES_CLASS: 'minicart-dates date',
 
       SLOT_CLASS: 'minicart-slot',
 
@@ -2155,20 +2157,20 @@
         }
       },
       allSlots: function (value) {
-        if(value == "" || value == undefined) {
+        if (value == "" || value == undefined) {
           return "";
         }
-        if(value.constructor.isArray) {
+        if (value.constructor.isArray) {
           return value;
         } else {
           return JSON.parse(value) || "";
         }
       },
       todaysSlots: function (value) {
-        if(value == "undefined" || value == "" || value == undefined) {
+        if (value == "undefined" || value == "" || value == undefined) {
           return "";
         }
-        if(value.constructor.isArray) {
+        if (value.constructor.isArray) {
           return value;
         } else {
           return JSON.parse(value) || "";
@@ -2415,7 +2417,7 @@
           return false
         }
       }
-      
+
       return false;
     };
 
@@ -2750,8 +2752,8 @@
       // NOOP for Node
       if (!document) {
         return {
-          add: function () {},
-          remove: function () {}
+          add: function () { },
+          remove: function () { }
         };
         // Non-IE events
       } else if (document.addEventListener) {
@@ -3227,7 +3229,7 @@
     View.prototype.removeItem = function removeItem(idx) {
       this.redraw();
     };
-  
+
     module.exports = View;
 
   }, {
@@ -3252,9 +3254,12 @@
 
       click: function (evt) {
         var target = evt.target,
-          className = target.className;
+          className = target.className,
+          that = this,
+          timer;
 
         if (this.isShowing) {
+          cartForm = this;
           // Cart close button
           if (className === constants.CLOSER_CLASS) {
             this.hide();
@@ -3265,15 +3270,15 @@
           } else if (className === constants.QUANTITY_CLASS) {
             target[target.setSelectionRange ? 'setSelectionRange' : 'select'](0, 999);
             // Outside the cart
-          } else if (!(/input|button|select|option/i.test(target.tagName))) {
-            while (target.nodeType === 1) {
-              if (target === this.el) {
-                return;
+          } else if (!(/input|button|select|option/i.test(target.tagName)) && className != constants.DATES_CLASS && className != constants.SLOT_CLASS && className != "day") {
+            if (target != undefined && target != null && target.nodeType != null) {
+              while (target.nodeType === 1) {
+                if (target === this.el) {
+                  return;
+                }
+                target = target.parentNode;
               }
-
-              target = target.parentNode;
             }
-
             this.hide();
           }
         }
@@ -3284,19 +3289,7 @@
         var that = this,
           target = evt.target,
           timer;
-
-        if (target.className === constants.DATES_CLASS) {
-          timer = setTimeout(function () {
-            var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
-              cart = that.model.cart,
-              product = cart.items(idx),
-              dates = target.value;
-
-            if (product) {
-              product.set('dates', dates);
-            }
-          }, constants.KEYUP_TIMEOUT);
-        } else if (target.className === constants.SLOT_CLASS) {
+        if (target.className === constants.SLOT_CLASS) {
           timer = setTimeout(function () {
             var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
               cart = that.model.cart,
@@ -3307,7 +3300,7 @@
               product.set('slotToday', slot);
               product.set('slotSchedule', slot);
             }
-          }, constants.KEYUP_TIMEOUT);
+          }, constants.EVENT_TIMEOUT);
         }
       },
 
@@ -3330,7 +3323,7 @@
                 cart.remove(idx);
               }
             }
-          }, constants.KEYUP_TIMEOUT);
+          }, constants.EVENT_TIMEOUT);
         }
       },
       readystatechange: function () {
@@ -3356,7 +3349,6 @@
         }
       },
 
-
       pageshow: function (evt) {
         if (evt.persisted) {
           this.redraw();
@@ -3369,5 +3361,37 @@
   }, {
     "./constants": 11,
     "./util/events": 16
+  }],
+  24: [function (require) {
+    'use strict';
+
+    var constants = require('./constants');
+
+    $("body").delegate(".date", "focusin", function () {
+      $(this).datepicker({
+        multidate: true,
+        format: 'dd-mm-yyyy',
+        startDate: '+1d',
+        changeDate: true
+      }).on('changeDate', function (evt) {
+        var target = evt.target,
+          timer;
+
+        if (target.className === constants.DATES_CLASS) {
+          timer = setTimeout(function () {
+            var idx = parseInt(target.getAttribute(constants.DATA_IDX), 10),
+              cart = cartForm.model.cart,
+              product = cart.items(idx),
+              dates = target.value;
+
+            if (product) {
+              product.set('dates', dates);
+            }
+          }, constants.EVENT_TIMEOUT);
+        }
+      });
+    });
+  }, {
+    "./constants": 11
   }]
-}, {}, [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
+}, {}, [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
