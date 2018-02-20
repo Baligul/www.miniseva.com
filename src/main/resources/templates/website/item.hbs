@@ -115,14 +115,16 @@
                                                 <input type="hidden" name="cmd" value="_cart" />
                                                 <input type="hidden" name="add" value="1" />
                                                 <input type="hidden" name="id" value="{{this.id}}" />
+                                                <input type="hidden" name="allSlots" value="{{allSlots}}" />
+                                                <input type="hidden" name="name" value="{{this.name}}" />
+                                                <input type="hidden" name="price" value="{{this.price}}" />
+                                                <input type="hidden" name="productId" value="{{this.productId}}" />
+                                                <input type="hidden" name="description" value="{{this.description}}" />
                                                 {{#if todaysSlots}}
                                                     <input id="todaysSlots" type="hidden" name="todaysSlots" value="{{todaysSlots}}" />
                                                 {{else}}
                                                     <input id="todaysSlots" type="hidden" name="todaysSlots" value="undefined" />
-                                                {{/if}}
-                                                <input type="hidden" name="allSlots" value="{{allSlots}}" />
-                                                <input type="hidden" name="name" value="{{this.name}}" />
-                                                <input type="hidden" name="price" value="{{this.price}}" />
+                                                {{/if}}                                                
                                                 {{#if this.discount}}
                                                     <input type="hidden" name="discount" value="{{this.discount}}" />
                                                 {{/if}}

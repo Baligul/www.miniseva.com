@@ -1,7 +1,7 @@
 CREATE TABLE slot
 (
     id                      BIGSERIAL,
-    slot_val                VARCHAR(12) UNIQUE,
+    slot_val                VARCHAR(256) UNIQUE,
     end_time                TIME,
     updated_on              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_by              BIGINT,

@@ -1,4 +1,4 @@
-package com.miniseva.app.admin.orders;
+package com.miniseva.app.orders;
 
 import javax.persistence.*;
 
@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;;
 
 import javax.validation.constraints.*;
 
@@ -22,22 +24,13 @@ public class Orders implements Serializable {
     private Long id;
 
     private int amount;
-    private String currency;
-    private String status;
-    private String receipt;
 
-    @Column(name = "razorpay_order_id")
-    private String razorpayOrderId;
-
-    @Column(name = "razorpay_payment_id")
-    private String razorpayPaymentId;
-
-    private String coupon;
+    @Column(name = "currency_code")
+    private String currencyCode;
 
     @Column(name = "updated_by")
     private Long updatedBy;
 
-    @NotNull
     @Column(name = "created_by")
     private Long createdBy;
 
@@ -65,18 +58,12 @@ public class Orders implements Serializable {
     protected Orders() {
     }
 
-    public Orders(Long id, int amount, String currency, String status, String receipt, 
-            String razorpayOrderId, String razorpayPaymentId, String coupon, Long updatedBy, 
-            Long createdBy, DateTime updatedOn, DateTime createdOn) {
+    public Orders(Long id, int amount, String currencyCode,
+                  Long updatedBy, Long createdBy, DateTime updatedOn, DateTime createdOn) {
 
         this.id = id;
         this.amount = amount;
-        this.currency = currency;
-        this.status = status;
-        this.receipt = receipt;
-        this.razorpayOrderId = razorpayOrderId;
-        this.razorpayPaymentId = razorpayPaymentId;
-        this.coupon = coupon;
+        this.currencyCode = currencyCode;
         this.updatedBy = updatedBy;
         this.createdBy = createdBy;
         this.updatedOn = updatedOn;
@@ -117,54 +104,14 @@ public class Orders implements Serializable {
         this.amount = amount;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(String receipt) {
-        this.receipt = receipt;
-    }
-
-    public String getRazorpayOrderId() {
-        return razorpayOrderId;
-    }
-
-    public void setRazorpayOrderId(String razorpayOrderId) {
-        this.razorpayOrderId = razorpayOrderId;
-    }
-
-    public String getRazorpayPaymentId() {
-        return razorpayPaymentId;
-    }
-
-    public void setRazorpayPaymentId(String razorpayPaymentId) {
-        this.razorpayPaymentId = razorpayPaymentId;
-    }
-
-    public String getCoupon() {
-        return coupon;
-    }
-
-    public void setCoupon(String coupon) {
-        this.coupon = coupon;
-    }
-
+    
     public Long getCreatedBy() {
         return createdBy;
     }
@@ -220,19 +167,13 @@ public class Orders implements Serializable {
     @Override
     public String toString() {
         return "Orders{" +
-                ", id=" + (id != null ? id : "") +
-                ", amount='" + amount + '\'' +
-                ", currency='" + currency + '\'' +
-                ", status='" + status + '\'' +
-                ", receipt='" + receipt + '\'' +
-                ", razorpayOrderId='" + razorpayOrderId + '\'' +
-                ", razorpayPaymentId='" + razorpayPaymentId + '\'' +
-                ", coupon='" + coupon + '\'' +
+                "id=" + (id != null ? id : "") +
+                ", amount=" + amount +
+                ", currencyCode=" + (currencyCode != null ? currencyCode : "") +
                 ", updatedBy=" + updatedBy +
                 ", createdBy=" + createdBy +
                 ", updatedOn=" + (updatedOn != null ? updatedOn.toString() : "") +
                 ", createdOn=" + (createdOn != null ? createdOn.toString() : "") +
                 '}';
     }
-
 }

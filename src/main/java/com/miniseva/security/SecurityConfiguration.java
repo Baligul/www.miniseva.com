@@ -72,6 +72,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                     .csrfTokenRepository(csrfTokenRepository())
+                    .ignoringAntMatchers("/checkout")
                 .and()
                     .authorizeRequests()
                         .antMatchers("/",
@@ -87,7 +88,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 "/signin/**",
                                 "/signup/**",
                                 "/items/**",
-                                "/disconnect/facebook")
+                                "/disconnect/facebook",
+                                "/checkout")
                             .permitAll()
                         .antMatchers("/admin/**")
                             .hasRole("ADMIN")

@@ -90,6 +90,10 @@ echo "- item"
 $PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/item.sql
 echo "- slot"
 $PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/slot.sql
+echo "- schedule"
+$PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/schedule.sql
+echo "- orders"
+$PSQL -h localhost -p 5432 -U ms -w -d $database  < ./pg/tables/orders.sql
 
 # Grant role permissions
 # ------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 <%var items=cart.items();var settings=cart.settings();var hasItems=!!items.length;var priceFormat={format: true, currency: cart.settings("currency_code")};var totalFormat={format: true, showCode: true};%>
-    <form method="post" class="<% if (!hasItems){%>minicart-empty<%}%>" action="<%=config.action %>" target="<%=config.target %>">
+    <form method="post" class="<% if (!hasItems){%>minicart-empty<%}%>" action="<%=config.action %>" target="<%=config.target %>" modelAttribute="scheduleForm">
         <button type="button" class="minicart-closer">&times;</button>
         <ul>
             <% for (var i=0, idx=i + 1, len=items.length; i < len; i++, idx++){%>
@@ -30,7 +30,7 @@
                         </ul>
                     </div>
                     <div class="minicart-details-slot">
-                        <select class="minicart-slot" data-minicart-idx="<%=i %>" name="slot_<%=idx %>">
+                        <select class="minicart-slot" data-minicart-idx="<%=i %>" name="schedules[<%=i %>].slot">
                             <% var isScheduled = items[i].get("isScheduled") %>
 
                             <% if(isScheduled == 0) {%>
@@ -53,11 +53,11 @@
                             Today
                         <%}%>                        
                         <% if(isScheduled == 1) {%>
-                            <input data-minicart-idx="<%=i %>" name="dates_<%=idx %>" value="<%=items[i].get("dates") %>" type="text" class="minicart-dates date" placeholder="Pick the multiple dates">
+                            <input data-minicart-idx="<%=i %>" name="schedules[<%=i %>].dates" value="<%=items[i].get("dates") %>" type="text" class="minicart-dates date" placeholder="Pick the multiple dates">
                         <%}%>
                     </div>
                     <div class="minicart-details-quantity">
-                        <input class="minicart-quantity" data-minicart-idx="<%=i %>" name="quantity_<%=idx %>" type="text" pattern="[0-9]*" value="<%=items[i].get("quantity") %>" autocomplete="off" /> </div>
+                        <input class="minicart-quantity" data-minicart-idx="<%=i %>" name="schedules[<%=i %>].quantity" type="text" pattern="[0-9]*" value="<%=items[i].get("quantity") %>" autocomplete="off" /> </div>
                     <div class="minicart-details-remove">
                         <button type="button" class="minicart-remove" data-minicart-idx="<%=i %>">&times;</button>
                     </div>
@@ -66,8 +66,14 @@
                             <%=items[i].total(priceFormat) %>
                         </span>
                     </div>
-                    <input type="hidden" name="name_<%=idx %>" value="<%=items[i].get("name") %>"/>
-                    <input type="hidden" name="price_<%=idx %>" value="<%=items[i].price() %>" />
+                    <input type="hidden" name="schedules[<%=i %>].itemId" value="<%=items[i].get("id") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].itemName" value="<%=items[i].get("name") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].itemPrice" value="<%=items[i].get("price") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].itemDiscount" value="<%=items[i].discount() %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].itemDescription" value="<%=items[i].get("description") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].itemProductId" value="<%=items[i].get("productId") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].isScheduled" value="<%=items[i].get("isScheduled") %>"/>
+                    <input type="hidden" name="schedules[<%=i %>].totalPrice" value="<%=items[i].total() %>"/>
                     <input type="hidden" name="shipping_<%=idx %>" value="<%=items[i].get("shipping") %>"/>
                     <input type="hidden" name="shipping2_<%=idx %>" value="<%=items[i].get("shipping2") %>"/> </li>
                 <%}%>
