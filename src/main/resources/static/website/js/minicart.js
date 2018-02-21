@@ -1799,7 +1799,7 @@ var cartForm;
 
           this.save();
           $("#slotSchedule"+data.id).val('');
-          $("#dates"+data.id).val('');
+          $("#dates"+data.id).datepicker('setDate', null);
           $("#slotToday"+data.id).val('');          
         }
       }
