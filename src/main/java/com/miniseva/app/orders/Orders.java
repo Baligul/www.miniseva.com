@@ -71,6 +71,12 @@ public class Orders implements Serializable {
 
     }
 
+    public Orders(int amount, String currencyCode, DateTime createdOn) {
+        this.amount = amount;
+        this.currencyCode = currencyCode;
+        this.createdOn = createdOn;
+    }
+
     @PrePersist
     private void onCreate() {
         setCreatedOn(DateTime.now());

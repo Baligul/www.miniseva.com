@@ -95,7 +95,6 @@
         </div>
         <input type="hidden" name="cmd" value="_cart" />
         <input type="hidden" name="upload" value="1" />
-        <% for (var key in settings){%>
-            <input type="hidden" name="<%=key %>" value="<%=settings[key] %>" />
-            <%}%>
+        <input type="hidden" name="amount" value="<%=cart.total() %>"/>
+        <input type="hidden" name="currencyCode" value="<%=cart.settings("currency_code") %>"/>
     </form>

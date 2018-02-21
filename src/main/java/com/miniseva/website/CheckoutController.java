@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
 import com.miniseva.app.schedule.Schedule;
 import com.miniseva.app.schedule.ScheduleForm;
 import com.miniseva.app.schedule.ScheduleRepository;
+import com.miniseva.app.orders.Orders;
+import com.miniseva.app.orders.OrdersRepository;
 
 import java.util.*;
+
+import org.joda.time.DateTime;
 
 // import com.miniseva.app.slot.Slot;
 // import com.miniseva.app.slot.SlotRepository;
@@ -34,34 +39,47 @@ public class CheckoutController {
     // private ProductRepository repoProduct;
     // private SlotRepository repoSlot;
     private ScheduleRepository repoSchedule;
+    private OrdersRepository repoOrders;
 
-    public CheckoutController(ScheduleRepository repoSchedule) {
+    public CheckoutController(ScheduleRepository repoSchedule,
+                              OrdersRepository repoOrders) {
         this.repoSchedule = repoSchedule;
+        this.repoOrders = repoOrders;
     }
         
     @PostMapping("/checkout")
-    public String page(@ModelAttribute("scheduleForm") ScheduleForm scheduleForm, Model model) {
+    public String page(@ModelAttribute("scheduleForm") ScheduleForm scheduleForm, 
+                       Model model,
+                       @RequestParam(value="amount") int amount,
+                       @RequestParam(value="currencyCode") String currencyCode) {
         model.addAttribute("page", "checkout");
         
         List<Schedule> schedules = scheduleForm.getSchedules();
-        
-        if(schedules != null && schedules.size() > 0) {
-			for (Schedule schedule : schedules) {
-                if (schedule.getIsScheduled() == 1) {
-                    if(schedule != null && repoSchedule != null) {
+
+        try {
+            if(schedules != null && schedules.size() > 0) {
+                // First create order then add schedule for each order
+                Orders order = new Orders(amount, currencyCode, DateTime.now());
+                order = repoOrders.save(order);
+                for (Schedule schedule : schedules) {
+                    schedule.setStatus("new");
+                    schedule.setOrderId(order.getId());
+                    if (schedule.getIsScheduled() == 1) {                    
                         repoSchedule.save(schedule);
                     } else {
-                        log.info("repoSchedule is null 1");
-                    }                   
-                } else {
-                    if(schedule != null && repoSchedule != null) {
+                        schedule.setDates(getCurrentFormattedDate());
                         repoSchedule.save(schedule);
-                    } else {
-                        log.info("repoSchedule is null 2");
                     }
                 }
-			}
-		}
+                model.addAttribute("success", true);
+                model.addAttribute("order", order);
+                model.addAttribute("schedules", schedules);
+                model.addAttribute("purchasedDate", getCurrentFormattedDate());
+            }            
+        } catch (Exception e) {
+            model.addAttribute("success", false);
+            log.info("Error: " + e.getMessage());
+        }
 
         return "website/checkout";
     }
@@ -71,6 +89,16 @@ public class CheckoutController {
         model.addAttribute("page", "checkout");
 
         return "website/checkout";
+    }
+
+    public String getCurrentFormattedDate() {
+        DateTime currentDate = DateTime.now();
+
+        int currentDateYear = currentDate.getYear();
+        String currentDateMonth = currentDate.toString("MM");
+        String currentDateDay = currentDate.toString("dd");
+
+        return currentDateDay + "-" + currentDateMonth + "-" + currentDateYear;
     }
 
 }
