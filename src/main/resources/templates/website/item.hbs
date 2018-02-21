@@ -72,16 +72,10 @@
                             alert("Please select time slot before adding schedule for this item.");
                         } else if($("#dates" + {{ this.id }}).val() == "") {
                             alert("Please select one or more dates before adding schedule for this item.");
-                        } else {
-                            $("#slotSchedule" + {{ this.id }}).value = "";
-                            $("#dates" + {{ this.id }}).value = "";
                         }
-                        
                     } else if ($("#oneTime" + {{ this.id }}).is(":checked")) {
                         if($("#slotToday" + {{ this.id }}).val() == "") {
                             alert("Please select time slot before adding this item to your cart.");
-                        } else {
-                            $("#slotToday" + {{ this.id }}).value = "";
                         }
                     }
                 });

@@ -1798,6 +1798,9 @@ var cartForm;
           });
 
           this.save();
+          $("#slotSchedule"+data.id).val('');
+          $("#dates"+data.id).val('');
+          $("#slotToday"+data.id).val('');          
         }
       }
 
