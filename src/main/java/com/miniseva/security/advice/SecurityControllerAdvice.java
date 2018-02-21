@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.miniseva.app.slot.SlotRepository;
+import com.miniseva.app.item.ItemRepository;
+
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,15 @@ import javax.servlet.http.HttpSession;
 @ControllerAdvice
 @Controller
 public class SecurityControllerAdvice {
+    private ItemRepository repoItem;
+    private SlotRepository repoSlot;
+
+    public SecurityControllerAdvice(ItemRepository repoItem,
+                                    SlotRepository repoSlot) {
+        this.repoItem = repoItem;
+        this.repoSlot = repoSlot;
+    }
+
     @ModelAttribute
     public void enrichModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -83,5 +95,11 @@ public class SecurityControllerAdvice {
         // The name displayUsername is required to avoid conflicting with controller specific model attributes
         // (i.e. username is already used in the LogInController and the SignUpController)
         model.addAttribute("displayUsername", username);
+        model.addAttribute("allSlots", repoSlot.findAll());
+        model.addAttribute("allItems",repoItem.findAll());
+        
+        if(repoSlot.getTodaysSlots().size() > 0) {
+            model.addAttribute("todaysSlots", repoSlot.getTodaysSlots());
+        }
     }
 }

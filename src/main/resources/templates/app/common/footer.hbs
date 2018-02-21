@@ -121,3 +121,8 @@
    });
    
 </script>
+{{#ifeqStr page "checkout"}}
+    <script>
+        paypal.minicart.reset();        
+    </script>
+{{/ifeqStr}}
