@@ -17,8 +17,18 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
     Page<Schedule> findAll(Pageable pageRequest);
     // Page<Schedule> findByNameContainingIgnoreCase(String searchValue, Pageable pageRequest);
     Page<Schedule> findByDates(String dates, Pageable pageRequest);
-    
+
+    @Query(value = "SELECT * FROM SCHEDULE WHERE dates LIKE ?1 \n-- #pageable\n",
+    nativeQuery = true)
+    Page<Schedule> getAllSchedulesByDate(String searchValue, Pageable pageRequest);
+        
     long count();
     // long countByNameContainingIgnoreCase(String searchValue);
     long countByDates(String dates);
+
+    @Query(value = "SELECT COUNT(*) FROM SCHEDULE WHERE dates LIKE ?1",
+    nativeQuery = true)
+    long countAllSchedulesByDate(String searchValue);
+
+    List<Schedule> findByOrderId(Long orderId);
 }

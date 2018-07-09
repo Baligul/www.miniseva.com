@@ -107,6 +107,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             .hasAnyRole("ROOT", "SYSADMIN", "TEACHER")
                         .antMatchers("/app/documentation/**/author/**")
                             .hasAnyRole("ROOT", "SYSADMIN", "TEACHER")
+                        .antMatchers("/delivery/**")
+                            .hasRole("DELIVERY_BOY")
                         .anyRequest()
                             .authenticated()
                         //.anyRequest().permitAll()

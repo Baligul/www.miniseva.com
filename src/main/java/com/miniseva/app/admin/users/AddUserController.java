@@ -77,6 +77,7 @@ public class AddUserController {
             @RequestParam(value="action", required=false) String action,
             @RequestParam String confirmPassword,
             @RequestParam(value="isCustomer", required=false) Boolean isCustomer,
+            @RequestParam(value="isDeliveryBoy", required=false) Boolean isDeliveryBoy,
             Authentication authentication) {
 
         AccountDetails user = new AccountDetails(authentication);
@@ -88,6 +89,7 @@ public class AddUserController {
 
         model.addAttribute("user",account);
         model.addAttribute("isCustomer", isCustomer);
+         model.addAttribute("isDeliveryBoy", isDeliveryBoy);
         String baseUserUrl = "/app/admin/users";
         String formPostUrl = baseUserUrl + "/add";
 
@@ -142,6 +144,9 @@ public class AddUserController {
                 // Set the roles for this account.
                 if (isCustomer != null) {
                     roles.addAll(srvRole.findByRole("ROLE_CUSTOMER"));
+                }
+                if (isDeliveryBoy != null) {
+                    roles.addAll(srvRole.findByRole("ROLE_DELIVERY_BOY"));
                 }    
                 account.setRoles(roles);
 

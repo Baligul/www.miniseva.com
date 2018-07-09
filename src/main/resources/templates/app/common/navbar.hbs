@@ -69,6 +69,8 @@
                             <li class="divider"></li>
                             <li><a href="/app/admin/orders"><i class="fa fa-shopping-cart fa-fw"></i> Orders</a></li>
                             --}}
+                            <li><a href="/app/admin/orders">Orders</a></li>
+                            <li class="divider"></li>
                             <li><a href="/app/admin/users">Users</a></li>
                             <li class="divider"></li>
                             <li><a href="/app/admin/customer">Customers</a></li>
@@ -81,6 +83,22 @@
                             <li><a href="/app/admin/item">Items</a></li>
                             <li class="divider"></li>
                             <li><a href="/app/admin/slot">Slots</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    {{/if}}
+    {{#if isDeliveryBoyRole}}
+        <div class="w3l_header_right">      
+            <ul>
+                <li class="dropdown profile_details_drop">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Delivery Boy<span class="caret"></span></a>
+                    <div class="mega-dropdown-menu">
+                    <div class="w3ls_vegetables">
+                        <ul class="dropdown-menu drp-mnu">
+                            <li><a href="/app/delivery/orders">Orders</a></li>
                         </ul>
                     </div>
                     </div>

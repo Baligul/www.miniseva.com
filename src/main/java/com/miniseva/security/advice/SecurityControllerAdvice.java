@@ -48,6 +48,7 @@ public class SecurityControllerAdvice {
         //boolean isAdminRole = false;
         boolean isRootRole = false;
         boolean isCustomerRole = false;
+        boolean isDeliveryBoyRole = false;
         String username = "";
 
         if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
@@ -70,6 +71,8 @@ public class SecurityControllerAdvice {
                                 isRootRole = true;
                             if (role != null && role.equals("ROLE_CUSTOMER"))
                                 isCustomerRole = true;
+                            if (role != null && role.equals("ROLE_DELIVERY_BOY"))
+                                isDeliveryBoyRole = true;
                         }
                     }
                 } else if (auth.getPrincipal() instanceof String) {
@@ -92,6 +95,7 @@ public class SecurityControllerAdvice {
         //model.addAttribute("isAdminRole", isAdminRole);
         model.addAttribute("isRootRole", isRootRole);
         model.addAttribute("isCustomerRole", isCustomerRole);
+        model.addAttribute("isDeliveryBoyRole", isDeliveryBoyRole);
         // The name displayUsername is required to avoid conflicting with controller specific model attributes
         // (i.e. username is already used in the LogInController and the SignUpController)
         model.addAttribute("displayUsername", username);

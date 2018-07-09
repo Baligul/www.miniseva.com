@@ -60,6 +60,7 @@
                   {{/if}}
                   <form action="/signup" method="post">
                      <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                     <input type="hidden" name="customerId" value="{{customerId}}" />
                      <input type="text" value="{{cardNo}}" name="cardNo" readonly placeholder="Card No" required=" ">
                      <input type="text" name="name" placeholder="Name" required=" ">
                      <input type="password" name="password" placeholder="Password" required=" ">

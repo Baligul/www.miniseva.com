@@ -110,6 +110,10 @@ public class SignupController {
         model.addAttribute("cardNo", cardNo);
         model.addAttribute("products",repoProduct.findAll());
 
+        // Set the customerId based on card no
+        Customer customer = repoCustomer.findByCardNo(cardNo);
+        model.addAttribute("customerId", customer.getId());
+
         // Social Auth
         // ===========
 
@@ -178,8 +182,8 @@ public class SignupController {
         // Validation
         // ==========
         int numValidationErrors = 0;
-        Map<String, String> errors = new HashMap<>();
         Customer customer = null;
+        Map<String, String> errors = new HashMap<>();
         model.addAttribute("products",repoProduct.findAll());
 
 
@@ -233,10 +237,6 @@ public class SignupController {
         // Encode the password
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setUsername(account.getMobilePhone()); // Set the username for new account
-
-        // Set the customerId based on card no
-        customer = repoCustomer.findByCardNo(cardNo);
-        account.setCustomerId(customer.getId());
 
         // save the Account in the DB via JPA
         try {

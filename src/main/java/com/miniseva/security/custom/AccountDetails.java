@@ -19,6 +19,7 @@ public class AccountDetails {
     private String username = "";
     private boolean isRoleRoot = false;
     private boolean isRoleCustomer = false;
+    private boolean isRoleDeliveryBoy = false;
 
     // Constructors
     // ============
@@ -44,6 +45,8 @@ public class AccountDetails {
                                 this.isRoleRoot = true;
                             if (role != null && role.equals("ROLE_CUSTOMER"))
                                 this.isRoleCustomer = true;
+                            if (role != null && role.equals("ROLE_DELIVERY_BOY"))
+                                this.isRoleDeliveryBoy = true;
                         }
                     }
                 } else if (auth.getPrincipal() instanceof String) {
@@ -81,5 +84,9 @@ public class AccountDetails {
 
     public boolean isCustomer() {
         return isRoleCustomer;
+    }
+
+    public boolean isDeliveryBoy() {
+        return isRoleDeliveryBoy;
     }
 }

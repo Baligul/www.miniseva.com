@@ -69,6 +69,9 @@ public class AuthorUserController {
             if (role.getRole().equals("ROLE_CUSTOMER")) {
                 model.addAttribute("isCustomer", true);
             }
+            if (role.getRole().equals("ROLE_DELIVERY_BOY")) {
+                model.addAttribute("isDeliveryBoy", true);
+            }  
         }
 
         List<Customer> customers = repoCustomer.getRemainingCustomers();
@@ -89,6 +92,7 @@ public class AuthorUserController {
                                 Model model, @PathVariable Long userId, 
                                 @RequestParam(value="action", required=false) String action,
                                 @RequestParam(value="isCustomer", required=false) Boolean isCustomer,
+                                @RequestParam(value="isDeliveryBoy", required=false) Boolean isDeliveryBoy,
                                 Authentication authentication) {
 
         Account savedAccount = srvAccount.findById(userId);
@@ -151,6 +155,9 @@ public class AuthorUserController {
                 if (isCustomer != null) {
                     roles.addAll(srvRole.findByRole("ROLE_CUSTOMER"));
                 }
+                if (isDeliveryBoy != null) {
+                    roles.addAll(srvRole.findByRole("ROLE_DELIVERY_BOY"));
+                }
                 
                 savedAccount.setRoles(roles);
                 savedAccount.setApproved(account.getApproved());
@@ -199,6 +206,9 @@ public class AuthorUserController {
                 if (role.getRole().equals("ROLE_CUSTOMER")) {
                     model.addAttribute("isCustomer", true);
                 }
+                if (role.getRole().equals("ROLE_DELIVERY_BOY")) {
+                    model.addAttribute("isDeliveryBoy", true);
+                } 
             }
         }
 
