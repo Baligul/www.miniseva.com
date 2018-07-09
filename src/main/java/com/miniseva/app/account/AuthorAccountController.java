@@ -2,6 +2,10 @@ package com.miniseva.app.account;
 
 import com.miniseva.app.customer.Customer;
 import com.miniseva.app.customer.CustomerRepository;
+import com.miniseva.app.lead.Lead;
+import com.miniseva.app.lead.LeadRepository;
+import com.miniseva.app.card.Card;
+import com.miniseva.app.card.CardRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +41,17 @@ public class AuthorAccountController {
     private static final Logger log = LoggerFactory.getLogger(AuthorAccountController.class);
     private AccountService srvAccount;
     private CustomerRepository repoCustomer;
+    private LeadRepository repoLead;
+    private CardRepository repoCard;
 
     public AuthorAccountController(AccountService srvAccount,
-                                   CustomerRepository repoCustomer) {
+                                   CustomerRepository repoCustomer,
+                                   LeadRepository repoLead,
+                                   CardRepository repoCard) {
         this.srvAccount = srvAccount;
         this.repoCustomer = repoCustomer;
+        this.repoLead = repoLead;
+        this.repoCard = repoCard;
     }
 
     /**
@@ -67,6 +77,16 @@ public class AuthorAccountController {
         if(account.getCustomerId() != null) {
             Customer customer = repoCustomer.findById(account.getCustomerId());
             model.addAttribute("customer", customer);
+            
+            if(customer.getLeadId() != null) {
+                Lead lead = repoLead.findById(customer.getLeadId());
+                model.addAttribute("lead", lead);
+            }
+
+            if(customer.getCardNo() != null) {
+                Card card = repoCard.findByCardNo(customer.getCardNo());
+                model.addAttribute("card", card);
+            }
         }
 
         model.addAttribute("successMsg", msg);

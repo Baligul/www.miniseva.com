@@ -106,6 +106,24 @@
             </ul>
         </div>
     {{/if}}
+    {{#if isCustomerRole}}
+        <div class="w3l_header_right">      
+            <ul>
+                <li class="dropdown profile_details_drop">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders<span class="caret"></span></a>
+                    <div class="mega-dropdown-menu">
+                    <div class="w3ls_vegetables">
+                        <ul class="dropdown-menu drp-mnu">
+                            <li><a href="/app/orders">My Orders</a></li>
+                            <li><a href="/app/orders/delivered">My delivered orders</a></li>
+                            <li><a href="/app/orders/remaining">My upcoming orders</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    {{/if}}
     {{else}}
         <div class="w3l_header_right">
             <ul>
