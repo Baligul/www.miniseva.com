@@ -1,0 +1,52 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Courses</h1>
+            </div>
+            {{#if courses}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+            <div>
+                <table
+                    show-filter="false"
+                    class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="rs-center">Course Name</th>
+                            <th class="rs-center">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each courses}}
+                            <tr>
+                                <td>
+                                    <a href="{{baseExamResultsUrl}}/{{this.slug}}/{{this.id}}/exams">
+                                        {{this.name}}
+                                    </a>
+                                </td>
+                                <td class="rs-center">
+                                    <a href="{{baseExamResultsUrl}}/{{this.slug}}/{{this.id}}/exams">
+                                        {{this.description}}
+                                    </a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            {{#if courses}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

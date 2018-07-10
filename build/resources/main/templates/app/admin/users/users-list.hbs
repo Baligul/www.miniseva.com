@@ -1,0 +1,97 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                {{> app/components/page_search }}
+            </div>
+            <div class="page-header" name="top">
+                <h1>Users</h1>
+            </div>
+            {{#if isRootRole }}
+                <a class="btn btn-success" href="{{formPostUrl}}"><i class="fa fa-plus"></i> Add User</a>
+                {{#if users}}
+                    {{> app/components/previous-next-links }}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>Card No.</div>
+                                </th>
+                                <th class="header">
+                                    <div>Username</div>
+                                </th>
+                                <th class="header">
+                                    <div>Name</div>
+                                </th>
+                                <th class="header">
+                                    <div>Email</div>
+                                </th>
+                                <th class="header">
+                                    <div>Mobile</div>
+                                </th>
+                                <th class="header">
+                                    <div>Last login</div>
+                                </th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each users}}
+                                <tr class="rs-clickable">
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.customerNo}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.username}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.name}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.email}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.mobilePhone}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.lastLoginFormatted}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="alert alert-info">
+                        No users were found. Click <strong>Add User</strong> to add a user.
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if users}}
+            {{> app/components/previous-next-links }}
+        {{/if}}
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

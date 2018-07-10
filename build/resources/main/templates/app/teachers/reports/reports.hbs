@@ -1,0 +1,95 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Reports</h1>
+            </div>
+            <div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="header">
+                                <div>Report</div>
+                            </th>
+                            <th class="header">
+                                <div>Description</div>
+                            </th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="{{studentReportUrl}}">
+                                    Student Report
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{studentReportUrl}}">
+                                    View detailed exam results per student
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{{batchStudentReportUrl}}">
+                                    Batch Student Report
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{batchStudentReportUrl}}">
+                                    View Student Report for all students in {{#ifeqStr domain "MiniSevaIndia.com"}}a batch{{/ifeqStr}}{{#ifeqStr domain "MiniSevaLMS.com"}}an academic year{{/ifeqStr}}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{{examResultsUrl}}">
+                                    Exam Results
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{examResultsUrl}}">
+                                    Per student results for individual exam
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{{studentLastLoginUrl}}">
+                                    Student Last Login
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{studentLastLoginUrl}}">
+                                    View the last time each student logged in to MiniSeva.com
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="{{OverallReportsUrl}}">
+                                    Overall Reports
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{OverallReportsUrl}}">
+                                    View the overall reports
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

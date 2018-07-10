@@ -1,0 +1,44 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <center>
+                    <h2>{{courseName}}: Examwise Performance Report</h2>
+                </center>
+                <form action="{{formPostUrl}}" method="post">
+                    <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                    <div class="form-group">
+                        <label for="cid">Select the course to see Examwise Performance Report</label>
+                        <select onchange="this.form.submit()" name="cid" class="form-control">
+                            {{#each courses}}
+                                <option {{#ifeq courseId @key}}selected="selected"{{/ifeq}} value="{{@key}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </form>
+                <div style="height: 600px;">
+                    <input type="hidden" id="courseExamWisePerformanceMap" value="{{courseExamWisePerformanceMap}}" />
+                    <center><div id="examwise-performance-bar-chart" style="height: 600px; width:100%"></div></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div >
+        <center>
+            <a href="{{overallPerformanceReportsUrl}}"
+                class="btn btn-success">View Overall Performance Report</a>
+            <a href="{{coursewisePerformanceReportsUrl}}"
+                class="btn btn-default">Back</a>
+        </center>
+        </br>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

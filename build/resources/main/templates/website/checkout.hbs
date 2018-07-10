@@ -1,0 +1,95 @@
+{{#partial "headcode" }} {{/partial}} {{#partial "footercode" }} {{/partial}} {{#partial "content" }}
+<div class="page-wrapper">
+    <div class="container">
+        <center>
+            <div>
+                {{#if success}}
+                <img src="/website/images/coursesignup/ps.png" class="img-responsive" alt="" /> {{else}}
+                <img src="/website/images/coursesignup/pu.png" class="img-responsive" alt="" /> {{/if}}
+            </div>
+        </center>
+        <center>
+            <h2>Thank you for your interest in MiniSeva. Please confirm if you would like to make the payment</h2>
+            {{#unless success}}
+            <h2>Something went wrong. Your order has failed. Please try after sometime.</h2>
+            {{/unless}}
+        </center>
+        <div class="detail">
+            {{#if success}}
+            <h3 style="color:goldenrod;">Order Details</h3>
+
+            {{/if}}
+            <div class="wow fadeInUp animated" data-wow-delay=".5s">
+                <div class="course_list">
+                    <div class="table-header clearfix">
+                        <div class="name_col">Item</div>
+                        <div class="duration_col">Schedule</div>
+                        <div class="duration_col">Price</div>
+                        <div class="duration_col">Discount</div>
+                        <div class="id_col">Quantity</div>
+                    </div>
+                    <ul class="table-list">
+                        {{#each schedules}}
+                        <li class="clearfix">
+                            <div class="name_col">
+                                {{this.itemName}}
+                                <p>
+                                    {{this.itemDescription}}
+                                </p>
+                                </a>
+                            </div>
+                            <div class="duration_col">
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                <input type="text" class="form-control date" value="{{this.dates}}">
+                            </div>
+                            <div class="duration_col">
+                                <i class="fa fa-inr" aria-hidden="true"></i> {{this.itemPrice}}.00</div>
+                            <div class="duration_col">
+                                <i class="fa fa-inr" aria-hidden="true"></i> {{this.itemDiscount}}.00</div>
+                            <div class="id_col">{{this.quantity}}</div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <table class="order_table">
+            <tbody>
+                <tr class="order_table_tr">
+                    <td class="order_table_td">
+                        <b>Order Id</b>: {{order.id}}</td>
+                </tr>
+                {{#if discount}} {{#ifeqStr domain "MiniSevaIndia.com"}}
+                <tr class="order_table_tr">
+                    <td class="order_table_td">
+                        <b>Discount</b>: -
+                        <i class="fa fa-inr" aria-hidden="true"></i> {{discount}}.00</td>
+                    <td class="order_table_td" colspan="2">
+                        <b>Coupon Used</b>: {{coupon}}</td>
+                </tr>
+                {{/ifeqStr}} {{/if}}
+                <tr class="order_table_tr">
+                    <td class="order_table_td">
+                        <b>Date of Purchased</b>: {{purchasedDate}}</td>
+                    <td class="order_table_td" colspan="2">
+                        <b>Amount to be paid </b>:
+                        <i class="fa fa-inr" aria-hidden="true"></i> {{order.amount}}.00</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <center>
+            <form action="/app/pay" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                <input type="hidden" name="orderId" value="{{order.id}}" />
+                <input type="hidden" name="amount" value="{{order.amount}}" />
+                
+
+                <button type="submit" name="action" value="pay" class="btn btn-success"><i class="fa fa-first-order" aria-hidden="true"></i>{{#if loggedIn}} Make Payment{{else}} Login to make payment{{/if}}</button>
+            </form>
+        </center>
+        <br>
+    </div>
+</div>
+{{/partial}} {{> common/master }}

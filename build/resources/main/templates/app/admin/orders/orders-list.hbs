@@ -1,0 +1,99 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Orders</h1>
+            </div>
+            {{#if isRootRole }}
+                {{#if orders}}
+                    {{> app/components/previous-next-links }}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>Order Id</div>
+                                </th>
+                                <th class="header">
+                                    <div>Amount</div>
+                                </th>
+                                <th class="header">
+                                    <div>Status</div>
+                                </th>
+                                <th class="header">
+                                    <div>Receipt</div>
+                                </th>
+                                <th class="header">
+                                    <div>Coupon</div>
+                                </th>
+                                <th class="header">
+                                    <div>Razorpay Order Id</div>
+                                </th>
+                                <th class="header">
+                                    <div>Razorpay Payment Id</div>
+                                </th>
+                                <th class="header">
+                                    <div>Created By</div>
+                                </th>
+                                <th class="header">
+                                    <div>CreatedOn</div>
+                                </th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                                <tr>
+                                    <td>
+                                        {{this.id}}
+                                    </td>
+                                    <td>
+                                        {{this.amount}}
+                                    </td>
+                                    <td>
+                                        {{this.status}}
+                                    </td>
+                                    <td>
+                                        {{this.receipt}}
+                                    </td>
+                                    <td>
+                                        {{this.coupon}}
+                                    </td>
+                                    <td>
+                                        {{this.razorpayOrderId}}
+                                    </td>
+                                    <td>
+                                        {{this.razorpayPaymentId}}
+                                    </td>
+                                    <td>
+                                        {{this.createdBy}}
+                                    </td>
+                                    <td>
+                                        {{this.createdOnFormatted}}
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="alert alert-info">
+                        No orders were found.
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if orders}}
+            {{> app/components/previous-next-links }}
+        {{/if}}
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

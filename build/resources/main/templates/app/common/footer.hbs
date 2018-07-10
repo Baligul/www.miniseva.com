@@ -1,0 +1,197 @@
+<!-- footer -->
+<div class="footer">
+   <div class="container">
+      <div class="col-md-3 w3_footer_grid">
+         <h3>information</h3>
+         <ul class="w3_footer_grid_list">
+            <li><a href="/products">Products</a><i>/</i></li>
+            <li><a href="/about">About Us</a><i>/</i></li>
+            <li><a href="/contact">Contact Us</a><i>/</i></li>
+         </ul>
+      </div>
+      <div class="col-md-3 w3_footer_grid">
+         <h3>policy info</h3>
+         <ul class="w3_footer_grid_list">
+            <li><a href="/faqs">FAQ</a></li>
+            <li><a href="/privacy">privacy policy</a></li>
+            <li><a href="/tos">terms of use</a></li>
+         </ul>
+      </div>
+      <div class="col-md-3 w3_footer_grid">
+         <h3>what in stores</h3>
+         <ul class="w3_footer_grid_list">
+            <li><a href="pet.html">Milk</a></li>
+            <li><a href="frozen.html">Water</a></li>
+            <li><a href="kitchen.html">Curd</a></li>
+         </ul>
+      </div>
+      <div class="col-md-3 w3_footer_grid">
+         <h3>twitter posts</h3>
+         <ul class="w3_footer_grid_list1">
+            <li><label class="fa fa-twitter" aria-hidden="true"></label><i>01 day ago</i><span>Non numquam <a href="#">http://sd.ds/13jklf#</a>
+               eius modi tempora incidunt ut labore et
+               <a href="#">http://sd.ds/1389kjklf#</a>quo nulla.</span>
+            </li>
+            <li><label class="fa fa-twitter" aria-hidden="true"></label><i>02 day ago</i><span>Con numquam <a href="#">http://fd.uf/56hfg#</a>
+               eius modi tempora incidunt ut labore et
+               <a href="#">http://fd.uf/56hfg#</a>quo nulla.</span>
+            </li>
+         </ul>
+      </div>
+      <div class="clearfix"> </div>
+      <div class="agile_footer_grids">
+         <div class="col-md-3 w3_footer_grid agile_footer_grids_w3_footer">
+            <div class="w3_footer_grid_bottom">
+               <h4>100% secure payments</h4>
+               <img src="/website/images/card.png" alt=" " class="img-responsive" />
+            </div>
+         </div>
+         <div class="col-md-3 w3_footer_grid agile_footer_grids_w3_footer">
+            <div class="w3_footer_grid_bottom">
+               <h5>connect with us</h5>
+               <ul class="agileits_social_icons">
+                  <li><a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="google"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                  <li><a href="#" class="dribbble"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+               </ul>
+            </div>
+         </div>
+         <div class="clearfix"> </div>
+      </div>
+      <div class="wthree_footer_copy">
+         <p>© 2018 Miniseva. All rights reserved.</p>
+      </div>
+   </div>
+</div>
+<!-- //footer -->
+<!-- Bootstrap Core JavaScript -->
+<script src="/website/js/bootstrap.min.js"></script>
+<script>
+   $(document).ready(function(){
+       $(".dropdown").hover(            
+           function() {
+               $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+               $(this).toggleClass('open');        
+           },
+           function() {
+               $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+               $(this).toggleClass('open');       
+           }
+       );
+   });
+</script>
+<!-- here stars scrolling icon -->
+<script type="text/javascript">
+   $(document).ready(function() {
+   	/*
+   		var defaults = {
+   		containerID: 'toTop', // fading element id
+   		containerHoverID: 'toTopHover', // fading element hover id
+   		scrollSpeed: 1200,
+   		easingType: 'linear' 
+   		};
+   	*/
+   						
+   	$().UItoTop({ easingType: 'easeOutQuart' });
+   						
+   	});
+</script>
+<!-- //here ends scrolling icon -->
+<script src="/website/js/minicart.js"></script>
+<script>
+    paypal.minicart.render();        
+</script>
+{{#ifeqStr page "checkout"}}
+    <script>
+        paypal.minicart.reset();        
+    </script>
+{{/ifeqStr}}
+{{#each allItems}}
+    <script>
+        paypal.minicart.cart.on('checkout', function (evt) {
+            var items = this.items(),
+                len = items.length,
+                i;
+
+            var allSlots =  "";
+            var todaysSlots =  "";
+
+            if("{{allSlots}}" != ""){
+                allSlots =  JSON.parse("{{allSlots}}".replace(/&quot;/g,"\""));
+            }
+
+            if("{{todaysSlots}}" != ""){
+                todaysSlots =  JSON.parse("{{todaysSlots}}".replace(/&quot;/g,"\""));
+            }
+
+            // Check if any value added in cart is now changed
+            for (i = 0; i < len; i++) {
+                if(items[i].get('id') == {{this.id}}) {
+                    if (items[i].get('price') != {{this.price}}) {
+                        alert("The price for \"{{this.name}}\" has changed. Please delete it from cart and add again to continue.");
+                        evt.preventDefault();
+                    }
+                    if (items[i].get('discount') != {{this.discount}}) {
+                        alert("The discount on \"{{this.name}}\" has changed. Please delete it from cart and add again to continue.");
+                        evt.preventDefault();
+                    }
+                    if(items[i].get('isScheduled') == 0) {
+                        if(todaysSlots == ""){
+                            alert("Any item scheduled for today can not be delivered. Please delete all such items from the cart and schedule them for some other day to continue.");
+                            evt.preventDefault();
+                        } else {
+                            if(!containsObject(items[i].get('slotToday'), todaysSlots)) {
+                                alert("\"{{this.name}}\" can not be delivered today at selected slot. Please delete it from cart and add again to continue.");
+                                evt.preventDefault();
+                            }
+                        }
+                    } 
+                    if(items[i].get('isScheduled') == 1) {
+                        if(allSlots == ""){
+                            alert("We regret for the inconvinience but due to some technical problem this service is down. Please try after sometime.");
+                            evt.preventDefault();
+                        } else {
+                            if(!containsObject(items[i].get('slotSchedule'), allSlots)) {
+                                alert("\"{{this.name}}\" can not be scheduled at selected slot. Please delete it from cart and schedule again to continue.");
+                                evt.preventDefault();
+                            }
+                        }
+
+                        if(isAnyDateInvalid(items[i].get('dates'))) {
+                            alert("Some of the dates selected for \"{{this.name}}\" are invalid. Please delete it from cart and schedule again to continue.");
+                            evt.preventDefault();
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+{{/each}}
+<script>
+    function containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i].slotVal == obj) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function isAnyDateInvalid(dates) {
+        var i;
+        arrDates = dates.split(",");
+        currDate = new Date();
+
+        for (i = 0; i < arrDates.length; i++) {
+            var dateSchds = arrDates[i].split("-");
+            var dateSchd = new Date(dateSchds[2], dateSchds[1] - 1, dateSchds[0]);
+            if (dateSchd <= currDate) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+</script>

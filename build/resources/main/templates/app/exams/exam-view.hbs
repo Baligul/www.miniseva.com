@@ -1,0 +1,150 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if answerIdError}}has-error{{/if}}">
+        {{#if answerIdError}}<span class="help-block dlxs-validation-error">({{answerIdError}})</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="item html">
+            <div id="showRemainingTime" class="timerstyle"></div>
+            <svg class="svgtimer">
+            <g>
+            <circle id="circle" class="circle_animation" r="40" cy="50" cx="100" stroke-width="8" stroke="#6fdb6f" fill="none"/>
+            </g>
+            </svg>
+        </div>
+        <div class="col-xs-12">  
+            <div class="page-header" name="top">
+                <h1>{{exam.name}}</h1>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{percentComplete}}" aria-valuemin="0" aria-valuemax="100" {{{progressbarStyle}}}>
+                    {{answeredQuestions}} / {{exam.questionsCount}}
+                </div>
+            </div>
+            <form action="{{formPostUrl}}" method="post">
+                <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                <input type="hidden" id="totalTime" name="totalTime" value="{{totalTime}}" />
+                <input type="hidden" id="remainingTime" name="remainingTime" value="{{remainingTime}}" />
+                <input type="hidden" id="examType" name="examType" value="{{examType}}" />
+                <input type="hidden" id="courseSlug" name="courseSlug" value="{{courseSlug}}" />
+                <input type="hidden" id="courseId" name="courseId" value="{{courseId}}" />
+                <input type="hidden" id="examId" name="examId" value="{{examId}}" />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- View question -->
+                        <div class="container rs-question rs-question-sc">
+                            <input type="hidden" name="questionId" value="{{question.id}}" />
+                            <input type="hidden" name="statusId" value="{{statusId}}" />
+                            <input type="hidden" id="answers" value="{{answers}}" />
+                            <div id="qtext{{this.id}}" name="mdText">{{md question.questionText}}</div>
+                            <div>{{question.promptText}}</div>
+                                {{#each answers}}
+                                        <div class="col-xs-11 rs-answer-text">
+                                            {{#ifeqStr question.questionType "sc"}}
+                                                <label>
+                                                <input type="radio"
+                                                name="answerId"
+                                                id="answer{{this.answerValue}}"
+                                                value="{{this.id}}"
+                                                {{#ifeq answer this.id}}checked{{/ifeq}}/>
+                                                {{#if answer}}
+                                                    <span id="qanswertext{{this.id}}" name="mdText" {{#if this.isCorrect}}class="rs-correct-answer"{{else}}{{#ifeq answer this.id}}class="rs-wrong-answer"{{/ifeq}}{{/if}}>{{md this.answerText}}</span>
+                                                {{else}}
+                                                    <span id="qanswertext{{this.id}}" name="mdText">{{md this.answerText}}</span>
+                                                {{/if}}
+                                                {{#if answer}}
+                                                    {{#if this.isCorrect}}
+                                                        <span class="rs-correct-answer">[CORRECT]</span>
+                                                    {{/if}}
+                                                {{/if}}
+                                                </label>
+                                            {{/ifeqStr}}
+                                            {{#ifeqStr question.questionType "mc"}}
+                                                <label>
+                                                <input type="checkbox"
+                                                name="answer"
+                                                id="answer{{this.answerValue}}"
+                                                value="{{this.id}}"
+                                                {{#ifInclude answer this.id}}checked{{/ifInclude}}/>
+                                                {{#if answer}}
+                                                    <span id="qanswertext{{this.id}}" name="mdText" {{#if this.isCorrect}}class="rs-correct-answer"{{else}}{{#ifInclude answer this.id}}class="rs-wrong-answer"{{/ifInclude}}{{/if}}>{{md this.answerText}}</span>
+                                                {{else}}
+                                                    <span id="qanswertext{{this.id}}" name="mdText">{{md this.answerText}}</span>
+                                                {{/if}}
+                                                {{#if answer}}
+                                                    {{#if this.isCorrect}}
+                                                        <span class="rs-correct-answer">[CORRECT]</span>
+                                                    {{/if}}
+                                                {{/if}}
+                                                </label>
+                                            {{/ifeqStr}}
+                                        </div>
+                                {{/each}}
+                                {{#ifeqStr question.questionType "oe"}}
+                                    <div class="col-xs-11 rs-answer-text">
+                                        <label>
+                                        <input type="text"
+                                        name="answer"
+                                        value="{{answer}}"/>
+                                        </label>
+                                    </div>
+                                {{/ifeqStr}}
+                                {{#ifeqStr question.questionType "oen"}}
+                                    <div class="col-xs-11 rs-answer-text">
+                                        <label>
+                                        <input type="number"
+                                        step="any"
+                                        name="answer"
+                                        value="{{answer}}"/>
+                                        </label>
+                                    </div>
+                                    {{#if answer}}
+                                        {{#each answers}}
+                                            <div class="col-xs-11 rs-answer-text">
+                                                <label>
+                                                {{#if this.isCorrect}}
+                                                    <span class="rs-correct-answer" id="qanswertext{{this.id}}" name="mdText">{{md this.answerText}}</span>
+                                                    <span class="rs-correct-answer">[CORRECT]</span>
+                                                {{/if}}
+                                                </label>
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
+                                {{/ifeqStr}}
+                        </div>
+                        {{#if answer}}
+                            <div correct-answer-value="correctAnswerValue"
+                                class="panel panel-success rs-answer-elaboration">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Answer Elaboration</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {{md question.answerElaboration}}
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="panel-footer">
+                        {{#ifneqInt answeredQuestions exam.questionsCount}}<button type="submit" name="action" value="NextQuestion" class="btn btn-success">Next Question</button>{{/ifneqInt}}
+                        {{#ifeqStr exam.examType "pe"}}<button type="submit" name="action" value="SubmitAnswer" class="btn btn-success">Submit Answer</button>{{/ifeqStr}}
+                        {{#ifeqInt answeredQuestions exam.questionsCount}}<button type="submit" name="action" value="FinishExam" class="btn btn-success">Finish Exam</button>{{/ifeqInt}}
+                        {{#ifneqInt answeredQuestions exam.questionsCount}}<button type="submit" name="action" value="AnswerLater" class="btn btn-success" >Answer Later</button>{{/ifneqInt}}
+                        {{#ifneqStr exam.examType "tbe"}}
+                            <button type="submit" name="action" value="PauseExam" class="btn btn-success">Pause Exam</button>
+                            <button type="submit" name="action" value="CancelExam" class="btn btn-success">Cancel Exam</button>
+                        {{/ifneqStr}}
+                        {{#ifeqStr exam.examType "tbe"}}<button type="submit" id="finish" name="action" value="FinishExamAutomatically" style="display: none;"></button>{{/ifeqStr}}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

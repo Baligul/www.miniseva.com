@@ -1,0 +1,85 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="form-group {{#if successMsg}}has-error{{/if}}">
+        {{#if successMsg}}<span class="help-block dlxs-validation-error">{{successMsg}}</span>{{/if}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                {{> app/components/page_search }}
+            </div>
+            <div class="page-header" name="top">
+                <h1>Customers</h1>
+            </div>
+            {{#if isRootRole }}
+                <a href="{{addCustomerUrl}}"
+                    class="btn btn-primary rs-add-button">
+                <i class="fa fa-plus"></i> Add Customer</a>
+                {{#if customers}}
+                    {{> app/components/previous-next-links }}
+                    <table show-filter="false"
+                        class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="header">
+                                    <div>Card No</div>
+                                </th>
+                                <th class="header">
+                                    <div>No</div>
+                                </th>
+                                <th class="header">
+                                    <div>Lead Name</div>
+                                </th>
+                                <th class="header">
+                                    <div>Block Name</div>
+                                </th>                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each customers}}
+                                <tr class="rs-clickable">
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.cardNo}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.no}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.leadName}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.blockName}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="alert alert-info">
+                        No customers were found. Click <strong>Add Customer</strong> to add an customer.
+                    </div>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if customers}}
+            {{> app/components/previous-next-links }}
+        {{/if}}
+    </div>
+
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}

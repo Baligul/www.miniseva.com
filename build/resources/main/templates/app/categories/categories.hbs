@@ -1,0 +1,59 @@
+{{#partial "headcode" }}
+{{/partial}}
+{{#partial "footercode" }}
+{{/partial}}
+{{#partial "content" }}
+<div class="container min-height-container">
+   <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header" name="top">
+                <h1>Education Programs</h1>
+            </div>
+            {{#unless categories}}
+                <div class="alert alert-info">
+                    No categories were found. Please ask your administrator/teacher to publish categories.
+                </div>
+            {{/unless}}
+            {{#if categories}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+            {{#each categories}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-size: 16px; font-weight: bold;">{{this.name}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{this.description}}
+                    </div>
+
+                    <div class="panel-footer" style="background-color: #fff;">
+                        <ul class="nav nav-pills">
+                            <li>
+                                <a href="/app/subcategories/{{this.slug}}/{{this.id}}"
+                                class=""><i class="fa fa-files-o"></i> Approved Grades
+                                    <span class="badge">{{#if isRootRole}}{{this.subCategoriesCount}}{{else}}{{this.approvedSubcategoriesCount}}{{/if}}</span>
+                                    {{!--<span class="badge">7-12</span>--}}
+                                </a>
+                            </li>
+                            {{#unless isRootRole}}
+                                <li>
+                                    <a href="/app/subcategories/{{this.slug}}/{{this.id}}?unapproved=true"
+                                    class=""><i class="fa fa-files-o"></i> Unapproved Grades
+                                        <span class="badge">{{this.unapprovedSubcategoriesCount}}</span>
+                                    </a>
+                                </li>
+                            {{/unless}}
+                        </ul>
+                    </div>
+                </div>
+            {{/each}}
+            {{#if categories}}
+                {{> app/components/previous-next-links }}
+            {{/if}}
+        </div>
+    </div>
+   <!-- /row -->
+</div>
+<!-- /container -->
+{{/partial}}
+{{> app/common/master }}

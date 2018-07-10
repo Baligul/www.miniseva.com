@@ -1,0 +1,57 @@
+{{#partial "headcode" }}
+{{/partial}}
+
+{{#partial "footercode" }}
+{{/partial}}
+
+{{#partial "content" }}
+<div class="container min-height-container">
+    <div class="row">
+        <div class="col-xs-12">
+            {{#if exams}}
+                <div>
+                    <form action="{{formPostUrl}}" method="post">
+                        <input type="hidden" name="{{csrfParameterName}}" value="{{csrfToken}}" />
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="examId">Exams</label>
+                                    <select name="examId" class="form-control">
+                                        {{#each exams}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="alert alert-warning" role="alert">
+                                    <h5><strong>Note: Add/Delete questions from exams</strong></h5>
+                                    <ul>
+                                        <li>Questions can only be added/deleted from the unpublished exams which are added by you.</li>
+                                        <li>Please choose an exam from which you want to add/delete questions and click <strong>Next</strong></li>
+                                    </ul>
+                                </div>                                
+                            </div>
+                            <div class="panel-footer">
+                                <button type="submit" name="action" value="{{actionAddExisting}}" class="btn btn-success" >Add questions from existing exams</button>
+                                <button type="submit" name="action" value="{{actionAddNew}}" class="btn btn-success" >Add new questions</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {{else}}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="alert alert-warning" role="alert">
+                            <h5><strong>Note: No unpublished exams found.</strong></h5>
+                            <ul>
+                                <li>Questions can only be added/deleted from the unpublished exams which are added by you.</li>
+                                <li>To add an exam please visit exams section and click <strong>Add Exam</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div><!-- /container -->
+{{/partial}}
+{{> app/common/master }}
