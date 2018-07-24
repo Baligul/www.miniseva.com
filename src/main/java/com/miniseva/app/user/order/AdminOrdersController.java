@@ -147,7 +147,7 @@ public class AdminOrdersController {
             }
         }
 
-        return "app/admin/block/block-list";
+        return "app/admin/orders/orders-list";
     }
 
     public String makeOrderBy(Orders order) {
