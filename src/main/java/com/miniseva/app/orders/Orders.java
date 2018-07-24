@@ -55,6 +55,12 @@ public class Orders implements Serializable {
     @Transient
     private String createdOnFormatted;
 
+    @Transient
+    private String orderBy;
+
+    @Transient
+    private String address;
+
     protected Orders() {
     }
 
@@ -168,6 +174,22 @@ public class Orders implements Serializable {
 
     public String getCreatedOnFormatted() {
         return createdOnFormatted;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

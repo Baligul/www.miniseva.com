@@ -7,4 +7,4 @@ if [ -z $VERSION ]; then
     VERSION=01
 fi
 
-pg_dump --create -h localhost -U rs -p 5432 miniseva | gzip > miniseva-${DATE}-${VERSION}.sql.gz
+pg_dump --create -h localhost -U ms -p 5432 miniseva | gzip > miniseva-${DATE}-${VERSION}.sql.gz
