@@ -67,6 +67,16 @@ public class PayController {
         AccountDetails user = new AccountDetails(authentication);
         String username = user.getUsername();
         Long userId = srvAccount.getUserId(username);
+        Account account = srvAccount.findById(userId);
+        Customer customer = repoCustomer.findById(account.getCustomerId());
+        Card card = repoCard.findByCardNo(customer.getCardNo());
+
+        int balance = card.getAmount() - amount;
+
+        if(balance < 0) {
+            model.addAttribute("successMsg", "Cannot make payment for the current order using your card no. as '" + card.getCardNo() + "'. Your card balance is Rs. " + card.getAmount() + ".00 which is not sufficient to create this order.");
+            return "app/user/pay/pay";
+        }
 
         Orders saveOrder = repoOrders.findById(orderId);
         log.info("Order Found: " + saveOrder.toString());
@@ -87,10 +97,6 @@ public class PayController {
                     }
 
                     // Update card amount
-                    Account account = srvAccount.findById(userId);
-                    Customer customer = repoCustomer.findById(account.getCustomerId());
-                    Card card = repoCard.findByCardNo(customer.getCardNo());
-                    int balance = card.getAmount() - amount;
                     card.setAmount(balance);
 
                     card = repoCard.save(card);
