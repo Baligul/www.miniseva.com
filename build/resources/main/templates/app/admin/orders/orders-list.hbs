@@ -40,7 +40,9 @@
                             {{#each orders}}
                                 <tr>
                                     <td>
-                                        {{this.id}}
+                                        <a href="{{detailsUrl}}/{{this.id}}">
+                                            {{this.id}}
+                                        </a>
                                     </td>
                                     <td>
                                         {{this.amount}}

@@ -1,4 +1,4 @@
-package com.miniseva.app.admin.orders;
+package com.miniseva.app.admin.schedule;
 
 import com.miniseva.security.account.Account;
 import com.miniseva.security.account.AccountService;
@@ -35,8 +35,8 @@ import static com.miniseva.configuration.Configuration.PAGE_SIZE;
 import com.miniseva.common.utility.Utility;
 
 @Controller
-public class AdminOrdersController {
-    private static final Logger log = LoggerFactory.getLogger(AdminOrdersController.class);
+public class AdminScheduleController {
+    private static final Logger log = LoggerFactory.getLogger(AdminScheduleController.class);
 
     private BlockRepository repoBlock;
     private LeadRepository repoLead;
@@ -46,12 +46,12 @@ public class AdminOrdersController {
     private ScheduleRepository repoSchedule;
 
 
-    public AdminOrdersController(BlockRepository repoBlock,
-                                 LeadRepository repoLead,
-                                 CustomerRepository repoCustomer,
-                                 AccountService srvAccount,
-                                 OrdersRepository repoOrders,
-                                 ScheduleRepository repoSchedule) {
+    public AdminScheduleController(BlockRepository repoBlock,
+                                   LeadRepository repoLead,
+                                   CustomerRepository repoCustomer,
+                                   AccountService srvAccount,
+                                   OrdersRepository repoOrders,
+                                   ScheduleRepository repoSchedule) {
         this.repoBlock = repoBlock;
         this.repoLead = repoLead;
         this.repoCustomer = repoCustomer;
@@ -60,96 +60,8 @@ public class AdminOrdersController {
         this.repoSchedule = repoSchedule;
     }
 
-    @GetMapping(value = {"/app/admin/orders/{pageNumber}", "/app/admin/orders" })
-    public String getOrdersPage(HttpServletRequest request,
-            @PathVariable Optional<Integer> pageNumber,
-            @RequestParam(value="action", required=false) String action,
-            @RequestParam(value="searchValue", required=false) String searchValue,
-            Model model) {
-
-        model.addAttribute("itemName", "Orders");
-
-        pageNumber = pageNumber.isPresent() ? pageNumber : Optional.of(1);
-        
-        // Get a page of orders. Note: page is 0-based, but displayed as 1-based.
-        PageRequest pageRequest =
-                new PageRequest(pageNumber.get() - 1, PAGE_SIZE, DESC, "createdOn");
-        Page<Orders> orders = repoOrders.findAll(pageRequest);
-
-        // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
-        //     blocks = repoBlock.findByNameContainingIgnoreCase(searchValue, pageRequest);
-        // }
-
-        // Set the orderBy and Address for each order
-        for (Orders order : orders) {
-            order.setOrderBy(Utility.makeOrderBy(order));
-            order.setAddress(Utility.makeAddress(order));
-        }
-
-        model.addAttribute("orders",orders);
-
-        // Counts for orders
-        long numOrders = repoOrders.count();
-
-        // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
-        //     numOrders = repoOrders.countByNameContainingIgnoreCase(searchValue);
-        // }
-
-        // First, last, next and previous links
-        String previousPage = String.valueOf((pageRequest.previous().getPageNumber() + 1));
-        String nextPage = String.valueOf((pageRequest.next().getPageNumber() + 1));
-        String firstPage = String.valueOf((pageRequest.first().getPageNumber() + 1));
-
-        // Calculate the last page
-        int intLastPage = (int) numOrders/PAGE_SIZE;
-        if (numOrders % PAGE_SIZE != 0) {
-            intLastPage = intLastPage + 1;        
-        } 
-        String lastPage = String.valueOf(intLastPage);
-        model.addAttribute("hasPrevious", orders.hasPrevious());
-        model.addAttribute("hasNext", orders.hasNext());
-        model.addAttribute("previousPage", previousPage);
-        model.addAttribute("nextPage", nextPage);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("lastPage", lastPage);
-
-        model.addAttribute("numOrders", numOrders);
-
-        model.addAttribute("range", pageNumber.get() + " of " + lastPage);
-
-        String baseOrderUrl = "/app/admin/orders";
-
-        String previousUrl = baseOrderUrl + "/" + previousPage;
-        String nextUrl = baseOrderUrl + "/" + nextPage;
-        String firstUrl = baseOrderUrl + "/" + firstPage;
-        String lastUrl = baseOrderUrl + "/" + lastPage;
-
-        if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
-            previousUrl = previousUrl + "?action=search&searchValue=" + searchValue;
-            nextUrl = nextUrl + "?action=search&searchValue=" + searchValue;
-            firstUrl = firstUrl + "?action=search&searchValue=" + searchValue;
-            lastUrl = lastUrl + "?action=search&searchValue=" + searchValue;
-            model.addAttribute("action", action);
-            model.addAttribute("searchValue", searchValue);
-        }
-
-        // First, last, next and previous pages urls
-        model.addAttribute("previousUrl", previousUrl);
-        model.addAttribute("nextUrl", nextUrl);
-        model.addAttribute("firstUrl", firstUrl);
-        model.addAttribute("lastUrl", lastUrl);
-
-        // Base url for Add and Edit
-        model.addAttribute("detailsUrl", baseOrderUrl + "/details");
-        model.addAttribute("addOrderUrl", baseOrderUrl + "/add");
-        model.addAttribute("baseUrl", baseOrderUrl);
-
-        return "app/admin/orders/orders-list";
-    }
-
-    @GetMapping(value = {"/app/admin/orders/details/{orderId}/{pageNumber}", "/app/admin/orders/details/{orderId}" })
+    @GetMapping(value = {"/app/admin/schedule/{pageNumber}", "/app/admin/schedule" })
     public String getSchedulePage(HttpServletRequest request,
-            @PathVariable Long orderId,
             @PathVariable Optional<Integer> pageNumber,
             @RequestParam(value="action", required=false) String action,
             @RequestParam(value="searchValue", required=false) String searchValue,
@@ -162,26 +74,23 @@ public class AdminOrdersController {
         // Get a page of schedules. Note: page is 0-based, but displayed as 1-based.
         PageRequest pageRequest =
                 new PageRequest(pageNumber.get() - 1, PAGE_SIZE, DESC, "createdOn");
-        Page<Schedule> schedules = repoSchedule.findByOrderId(orderId, pageRequest);
+        Page<Schedule> schedules = repoSchedule.findAll(pageRequest);
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     blocks = repoBlock.findByNameContainingIgnoreCase(searchValue, pageRequest);
         // }
-        
-        Orders order = repoOrders.findById(orderId);
-        String orderBy = Utility.makeOrderBy(order);
-        String address = Utility.makeAddress(order);
 
         // Set the orderBy and Address for each schedule
-        for (Schedule schedule : schedules) {           
-            schedule.setOrderBy(orderBy);
-            schedule.setAddress(address);
+        for (Schedule schedule : schedules) {
+            Orders order = repoOrders.findById(schedule.getOrderId());
+            schedule.setOrderBy(Utility.makeOrderBy(order));
+            schedule.setAddress(Utility.makeAddress(order));
         }
 
         model.addAttribute("schedules",schedules);
 
         // Counts for schedules
-        long numSchedule = repoSchedule.countByOrderId(orderId);
+        long numSchedule = repoSchedule.count();
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     numOrders = repoOrders.countByNameContainingIgnoreCase(searchValue);
