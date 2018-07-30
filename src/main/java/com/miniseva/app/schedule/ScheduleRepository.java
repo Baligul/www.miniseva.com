@@ -22,7 +22,7 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
     // nativeQuery = true)
     // Page<Schedule> getAllSchedulesByDate(String searchValue, Pageable pageRequest);
 
-    Page<Schedule> findByDatesIlike(String dates, Pageable pageRequest);
+    Page<Schedule> findByDatesLike(String dates, Pageable pageRequest);
         
     long count();
     // long countByNameContainingIgnoreCase(String searchValue);
@@ -35,5 +35,5 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
     Page<Schedule> findByOrderId(Long orderId, Pageable pageRequest);
     List<Schedule> findByOrderId(Long orderId);
     long countByOrderId(Long orderId);
-    long countByDatesIlike(String dates);
+    long countByDatesLike(String dates);
 }
