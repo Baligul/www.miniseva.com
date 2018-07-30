@@ -14,11 +14,11 @@ import com.miniseva.app.orders.Orders;
 
 public class Utility {
 
-    private static BlockRepository repoBlock;
-    private static LeadRepository repoLead;
-    private static AccountService srvAccount;
-    private static CustomerRepository repoCustomer;
-    private static ScheduleRepository repoSchedule;
+    private BlockRepository repoBlock;
+    private LeadRepository repoLead;
+    private AccountService srvAccount;
+    private CustomerRepository repoCustomer;
+    private ScheduleRepository repoSchedule;
 
 
     public Utility(BlockRepository repoBlock,
@@ -33,7 +33,7 @@ public class Utility {
         this.repoSchedule = repoSchedule;
     }
 
-    public static String makeOrderBy(Orders order) {
+    public String makeOrderBy(Orders order) {
         String orderBy = "";        
         Long createdById = order.getCreatedBy();
         Account account = srvAccount.findById(createdById);
@@ -43,7 +43,7 @@ public class Utility {
         return orderBy;
     }
 
-    public static String makeAddress(Orders order) {
+    public String makeAddress(Orders order) {
         String address = "";
         Long createdById = order.getCreatedBy();
         Account account = srvAccount.findById(createdById);

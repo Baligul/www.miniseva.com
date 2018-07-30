@@ -14,26 +14,26 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
 
     // List<Schedule> findByProductId(Long productId);
 
-    Page<Schedule> findAll(Pageable pageRequest);
+    Page<Schedule> findByCreatedByNotNull(Pageable pageRequest);
     // Page<Schedule> findByNameContainingIgnoreCase(String searchValue, Pageable pageRequest);
-    Page<Schedule> findByDates(String dates, Pageable pageRequest);
+    Page<Schedule> findByCreatedByNotNullAndDates(String dates, Pageable pageRequest);
 
     // @Query(value = "SELECT * FROM SCHEDULE WHERE dates LIKE ?1 \n-- #pageable\n",
     // nativeQuery = true)
     // Page<Schedule> getAllSchedulesByDate(String searchValue, Pageable pageRequest);
 
-    Page<Schedule> findByDatesLike(String dates, Pageable pageRequest);
+    Page<Schedule> findByCreatedByNotNullAndDatesLike(String dates, Pageable pageRequest);
         
-    long count();
+    long countByCreatedByNotNull();
     // long countByNameContainingIgnoreCase(String searchValue);
-    long countByDates(String dates);
+    long countByCreatedByNotNullAndDates(String dates);
 
     // @Query(value = "SELECT COUNT(*) FROM SCHEDULE WHERE dates LIKE ?1",
     // nativeQuery = true)
     // long countAllSchedulesByDate(String searchValue);
 
-    Page<Schedule> findByOrderId(Long orderId, Pageable pageRequest);
+    Page<Schedule> findByOrderIdAndCreatedByNotNull(Long orderId, Pageable pageRequest);
     List<Schedule> findByOrderId(Long orderId);
-    long countByOrderId(Long orderId);
-    long countByDatesLike(String dates);
+    long countByOrderIdAndCreatedByNotNull(Long orderId);
+    long countByCreatedByNotNullAndDatesLike(String dates);
 }

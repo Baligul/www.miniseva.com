@@ -14,12 +14,12 @@ public interface OrdersRepository extends PagingAndSortingRepository<Orders, Lon
 
     // List<Orders> findByProductId(Long productId);
 
-    Page<Orders> findAll(Pageable pageRequest);
+    Page<Orders> findByCreatedByNotNull(Pageable pageRequest);
     Page<Orders> findByCreatedBy(Long createdBy, Pageable pageRequest);
     // Page<Orders> findByNameContainingIgnoreCase(String searchValue, Pageable pageRequest);
     // Page<Orders> findByDates(String dates, Pageable pageRequest);
     
-    long count();
+    long countByCreatedByNotNull();
     // long countByNameContainingIgnoreCase(String searchValue);
     // long countByDates(String dates);
     long countByCreatedBy(Long createdBy);

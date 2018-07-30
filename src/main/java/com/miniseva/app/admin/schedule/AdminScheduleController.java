@@ -44,6 +44,7 @@ public class AdminScheduleController {
     private CustomerRepository repoCustomer;
     private OrdersRepository repoOrders;
     private ScheduleRepository repoSchedule;
+    private Utility utility;
 
 
     public AdminScheduleController(BlockRepository repoBlock,
@@ -58,6 +59,7 @@ public class AdminScheduleController {
         this.srvAccount = srvAccount;
         this.repoOrders = repoOrders;
         this.repoSchedule = repoSchedule;
+        this.utility = new Utility(repoBlock, repoLead, repoCustomer, srvAccount, repoSchedule);
     }
 
     @GetMapping(value = {"/app/admin/schedule/{pageNumber}", "/app/admin/schedule" })
@@ -74,7 +76,7 @@ public class AdminScheduleController {
         // Get a page of schedules. Note: page is 0-based, but displayed as 1-based.
         PageRequest pageRequest =
                 new PageRequest(pageNumber.get() - 1, PAGE_SIZE, DESC, "createdOn");
-        Page<Schedule> schedules = repoSchedule.findAll(pageRequest);
+        Page<Schedule> schedules = repoSchedule.findByCreatedByNotNull(pageRequest);
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     blocks = repoBlock.findByNameContainingIgnoreCase(searchValue, pageRequest);
@@ -83,14 +85,14 @@ public class AdminScheduleController {
         // Set the orderBy and Address for each schedule
         for (Schedule schedule : schedules) {
             Orders order = repoOrders.findById(schedule.getOrderId());
-            schedule.setOrderBy(Utility.makeOrderBy(order));
-            schedule.setAddress(Utility.makeAddress(order));
+            schedule.setOrderBy(utility.makeOrderBy(order));
+            schedule.setAddress(utility.makeAddress(order));
         }
 
         model.addAttribute("schedules",schedules);
 
         // Counts for schedules
-        long numSchedule = repoSchedule.count();
+        long numSchedule = repoSchedule.countByCreatedByNotNull();
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     numOrders = repoOrders.countByNameContainingIgnoreCase(searchValue);

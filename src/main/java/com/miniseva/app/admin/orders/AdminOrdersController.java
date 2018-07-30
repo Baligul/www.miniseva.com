@@ -44,6 +44,7 @@ public class AdminOrdersController {
     private CustomerRepository repoCustomer;
     private OrdersRepository repoOrders;
     private ScheduleRepository repoSchedule;
+    private Utility utility;
 
 
     public AdminOrdersController(BlockRepository repoBlock,
@@ -58,6 +59,7 @@ public class AdminOrdersController {
         this.srvAccount = srvAccount;
         this.repoOrders = repoOrders;
         this.repoSchedule = repoSchedule;
+        this.utility = new Utility(repoBlock, repoLead, repoCustomer, srvAccount, repoSchedule);
     }
 
     @GetMapping(value = {"/app/admin/orders/{pageNumber}", "/app/admin/orders" })
@@ -74,7 +76,7 @@ public class AdminOrdersController {
         // Get a page of orders. Note: page is 0-based, but displayed as 1-based.
         PageRequest pageRequest =
                 new PageRequest(pageNumber.get() - 1, PAGE_SIZE, DESC, "createdOn");
-        Page<Orders> orders = repoOrders.findAll(pageRequest);
+        Page<Orders> orders = repoOrders.findByCreatedByNotNull(pageRequest);
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     blocks = repoBlock.findByNameContainingIgnoreCase(searchValue, pageRequest);
@@ -82,14 +84,14 @@ public class AdminOrdersController {
 
         // Set the orderBy and Address for each order
         for (Orders order : orders) {
-            order.setOrderBy(Utility.makeOrderBy(order));
-            order.setAddress(Utility.makeAddress(order));
+            order.setOrderBy(utility.makeOrderBy(order));
+            order.setAddress(utility.makeAddress(order));
         }
 
         model.addAttribute("orders",orders);
 
         // Counts for orders
-        long numOrders = repoOrders.count();
+        long numOrders = repoOrders.countByCreatedByNotNull();
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     numOrders = repoOrders.countByNameContainingIgnoreCase(searchValue);
@@ -162,15 +164,15 @@ public class AdminOrdersController {
         // Get a page of schedules. Note: page is 0-based, but displayed as 1-based.
         PageRequest pageRequest =
                 new PageRequest(pageNumber.get() - 1, PAGE_SIZE, DESC, "createdOn");
-        Page<Schedule> schedules = repoSchedule.findByOrderId(orderId, pageRequest);
+        Page<Schedule> schedules = repoSchedule.findByOrderIdAndCreatedByNotNull(orderId, pageRequest);
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     blocks = repoBlock.findByNameContainingIgnoreCase(searchValue, pageRequest);
         // }
         
         Orders order = repoOrders.findById(orderId);
-        String orderBy = Utility.makeOrderBy(order);
-        String address = Utility.makeAddress(order);
+        String orderBy = utility.makeOrderBy(order);
+        String address = utility.makeAddress(order);
 
         // Set the orderBy and Address for each schedule
         for (Schedule schedule : schedules) {           
@@ -181,7 +183,7 @@ public class AdminOrdersController {
         model.addAttribute("schedules",schedules);
 
         // Counts for schedules
-        long numSchedule = repoSchedule.countByOrderId(orderId);
+        long numSchedule = repoSchedule.countByOrderIdAndCreatedByNotNull(orderId);
 
         // if(action != null && action.equals("search") && searchValue != null && !searchValue.trim().equals("")) {
         //     numOrders = repoOrders.countByNameContainingIgnoreCase(searchValue);

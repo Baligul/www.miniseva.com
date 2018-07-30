@@ -12,7 +12,7 @@
                 <h1>Schedules</h1>
             </div>
             {{#if isRootRole }}
-                {{#if orders}}
+                {{#if schedules}}
                     {{> app/components/previous-next-links }}
                     <table show-filter="false"
                         class="table table-bordered table-hover">
@@ -64,8 +64,8 @@
                             {{#each schedules}}
                                 <tr>
                                     <td>
-                                        <a href="{{detailsUrl}}/{{this.id}}">
-                                            {{this.id}}
+                                        <a href="{{detailsUrl}}/{{this.orderId}}">
+                                            {{this.orderId}}
                                         </a>
                                     </td>
                                     <td>
