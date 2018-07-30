@@ -211,7 +211,7 @@ public class AdminOrdersController {
 
         model.addAttribute("range", pageNumber.get() + " of " + lastPage);
 
-        String baseScheduleUrl = "/app/admin/schedule";
+        String baseScheduleUrl = "/app/admin/orders/details/"+orderId;
         String baseOrderUrl = "/app/admin/orders";
 
         String previousUrl = baseScheduleUrl + "/" + previousPage;

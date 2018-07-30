@@ -17,6 +17,7 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
     Page<Schedule> findByCreatedByNotNull(Pageable pageRequest);
     // Page<Schedule> findByNameContainingIgnoreCase(String searchValue, Pageable pageRequest);
     Page<Schedule> findByCreatedByNotNullAndDates(String dates, Pageable pageRequest);
+    Page<Schedule> findByCreatedBy(Long createdById, Pageable pageRequest);
 
     // @Query(value = "SELECT * FROM SCHEDULE WHERE dates LIKE ?1 \n-- #pageable\n",
     // nativeQuery = true)
@@ -33,7 +34,10 @@ public interface ScheduleRepository extends PagingAndSortingRepository<Schedule,
     // long countAllSchedulesByDate(String searchValue);
 
     Page<Schedule> findByOrderIdAndCreatedByNotNull(Long orderId, Pageable pageRequest);
+    Page<Schedule> findByOrderIdAndCreatedBy(Long orderId, Long createdById, Pageable pageRequest);
     List<Schedule> findByOrderId(Long orderId);
     long countByOrderIdAndCreatedByNotNull(Long orderId);
+    long countByOrderIdAndCreatedBy(Long orderId, Long createdById);
     long countByCreatedByNotNullAndDatesLike(String dates);
+    long countByCreatedBy(Long createdById);
 }
